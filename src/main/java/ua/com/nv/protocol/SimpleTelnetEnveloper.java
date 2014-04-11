@@ -2,6 +2,7 @@ package ua.com.nv.protocol;
 
 
 public class SimpleTelnetEnveloper {
+
     public SimpleTelnetMsg getMsg() {
         return msg;
     }
