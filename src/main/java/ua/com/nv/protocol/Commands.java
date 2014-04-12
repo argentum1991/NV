@@ -7,6 +7,8 @@ public enum Commands {
     PRIVATE("enter to private mode, your msg will be send only for selected consumer"),
     BROADCAST("enter to public mode, your msg will be broadcasted to everyone"),
     LOGOUT("logout from current profile"),
+    LOGIN("enter your credentials and principals and enter to chat"),
+    REGISTER("add new user "),
     SEND("send msg "),
     HISTORY("last 30 msg");
     Commands(String explanation){

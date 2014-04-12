@@ -14,4 +14,9 @@ public class SimpleTelnetDirector {
     }
 
 
+    public String getReceiverAlias() {
+        return "";
+    }
+
+
 }
