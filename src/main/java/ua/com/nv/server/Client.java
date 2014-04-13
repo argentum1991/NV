@@ -1,17 +1,9 @@
 package ua.com.nv.server;
 
 
-import ua.com.nv.protocol.SimpleTelnetDirector;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 
-import java.util.concurrent.Callable;
-
-public class Client {
+public class Client implements ClientNetStatusControl,Sender<String> {
     private ConnectionController controller;
     public String clientId;
 
@@ -23,18 +15,17 @@ public class Client {
     public boolean inOnlineMode() {
         return (controller == null);
     }
-
+    @Override
     public void setOfflineMode() {
         controller = null;
     }
-
+    @Override
     public void setOnlineMode(ConnectionController controller) throws IOException {
         this.controller = controller;
     }
-
-    public void printMsg(String msg) {
+    @Override
+    public void sendMsg(String msg) {
         controller.sendMsg(msg);
-
     }
 
     @Override

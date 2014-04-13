@@ -1,4 +1,4 @@
-package ua.com.nv.protocol;
+package ua.com.nv.protocol.commander;
 
 
 public enum Commands {
@@ -9,10 +9,12 @@ public enum Commands {
     LOGOUT("logout from current profile"),
     LOGIN("enter your credentials and principals and enter to chat"),
     REGISTER("add new user "),
-    SEND("send msg "),
-    HISTORY("last 30 msg");
-    Commands(String explanation){
-    this.explanation=explanation;
+    HISTORY("last 30 msg"),
+    WELCOME("Welcome to chat!\n please try to login or register yourself.\n " +
+            "Available for now commands are \n LOGIN:\n or REGISTER:\n");
+
+    Commands(String explanation) {
+        this.explanation = explanation;
     }
 
     public String getExplanation() {

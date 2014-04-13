@@ -5,17 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class ClientDao {
+public final class ClientDao {
 
-    public List<String> getClientKeys() {
+    public static List<String> getClientsId() {
         return new ArrayList<>();
     }
 
-    public HashSet<String> getAssotiatedMsgWith(String clientId){
+    public static HashSet<String> getAssotiatedMsgWith(String clientId){
     return new HashSet<>();
     }
-
-
 
 
 }

@@ -1,11 +1,11 @@
 package ua.com.nv.protocol;
 
 
+import ua.com.nv.protocol.commander.Commands;
+
 public class SimpleTelnetEnveloper {
 
-    public SimpleTelnetMsg getMsg() {
-        return msg;
-    }
+
 
     private SimpleTelnetMsg msg;
 
@@ -20,10 +20,14 @@ public class SimpleTelnetEnveloper {
     }
 
     public void addWelcomeUserHeader(String user) {
-
+        msg.appendToHeader("Hello, " + user + "\n");
     }
 
-    public void addUnknownCommandHeader(String command) {
+    public void addUnknownCommandHeader(String command, String likeCommand) {
+        msg.appendToHeader(String.format("Sorry, but this commander: %s is unknown\n", command));
+        if (!likeCommand.isEmpty()) {
+            msg.appendToHeader(String.format("but maybe you want:%s ", likeCommand));
+        }
 
     }
 
@@ -38,6 +42,9 @@ public class SimpleTelnetEnveloper {
 
     public void setMsg(SimpleTelnetMsg msg) {
         this.msg = msg;
+    }
+    public String getResponseMsg(){
+     return msg.toString();
     }
 
 }
