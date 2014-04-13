@@ -3,9 +3,10 @@ package ua.com.nv.protocol;
 
 import ua.com.nv.protocol.commander.Commander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
+import ua.com.nv.protocol.commander.util.CommanderBook;
+import ua.com.nv.protocol.commander.util.DirectedCommanderGraph;
 import ua.com.nv.server.ClientSecurityControl;
 import ua.com.nv.server.ClientSession;
-import ua.com.nv.protocol.commander.util.CommanderBook;
 
 
 public class SimpleTelnetDirector implements MsgDirector, ClientSecurityControl {
@@ -41,9 +42,12 @@ public class SimpleTelnetDirector implements MsgDirector, ClientSecurityControl 
         if (currentCommander != null && currentCommander.isContinue()) {
             return currentCommander;
         }
-        Commander commander = CommanderBook.getCommander(clientCommand);
-        if (commander != null) {
-            this.currentCommander = commander;
+        Commander nextCommander = CommanderBook.getCommander(clientCommand);
+        if (nextCommander != null) {
+
+            DirectedCommanderGraph.
+                    isPossibleNextCommand(currentCommander.getCommandAlias(),nextCommander.getCommandAlias());
+            this.currentCommander = nextCommander;
         }
         return currentCommander;
     }
