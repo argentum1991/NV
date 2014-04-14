@@ -83,7 +83,14 @@ public class SimpleTelnetDirector implements MsgDirector, ClientSecurityControl,
 
     @Override
     public void setDataForClientSession(String user, String pass) {
-        ClientsBook.bindSenderToClient(user,pass,sender);
+        ClientsBook.bindSenderToClient(user, pass, sender);
+    }
+
+    @Override
+    public void sessionInvalidate() {
+        session.clientId = null;
+        ClientsBook.unbindSenderFromClient(session.clientId);
+
     }
 
     private class CommandAndBody {
