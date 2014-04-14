@@ -3,9 +3,9 @@ package ua.com.nv.server;
 import java.io.IOException;
 
 
-public interface ClientNetStatusControl {
+public interface ClientNetStatusControl<T> {
 
     public void setOfflineMode();
-    public void setOnlineMode(ConnectionController controller) throws IOException ;
+    public void setOnlineMode(Sender<T> controller) ;
 
 }

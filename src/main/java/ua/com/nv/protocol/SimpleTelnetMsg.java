@@ -4,6 +4,10 @@ public class SimpleTelnetMsg {
     private StringBuilder fullContent = new StringBuilder();
     private StringBuilder fullHeader = new StringBuilder();
 
+    public SimpleTelnetMsg(){
+
+    }
+
     public void appendToContent(String content) {
     fullContent.append(content);
     }

@@ -33,12 +33,13 @@ public final class CommanderBook {
 
 
     }
-
+    @SuppressWarnings("checked")
     public static Commander getCommander(String request) {
         Commander returned = null;
         if (!commanders.contains(request)) {
             return returned;
         }
+
         try {
             returned = (Commander) commanders.get(request).newInstance();
             return returned;

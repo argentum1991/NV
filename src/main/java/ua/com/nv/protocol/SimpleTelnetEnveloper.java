@@ -15,12 +15,13 @@ public class SimpleTelnetEnveloper {
         msg.appendToHeader(header.toString());
     }
 
-    public void addStatusMsgHeader(String status) {
 
-    }
 
     public void addWelcomeUserHeader(String user) {
         msg.appendToHeader("Hello, " + user + "\n");
+    }
+    public void addUnknownUserHeader() {
+        msg.appendToHeader("Sorry, but your login or pass is incorrect\n");
     }
 
     public void addUnknownCommandHeader(String command, String likeCommand) {
@@ -38,6 +39,7 @@ public class SimpleTelnetEnveloper {
     public void addMsgContent(String content) {
 
     }
+
 
 
     public void setMsg(SimpleTelnetMsg msg) {

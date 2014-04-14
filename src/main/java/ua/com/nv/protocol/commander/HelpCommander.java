@@ -1,14 +1,19 @@
 package ua.com.nv.protocol.commander;
 
 
+import ua.com.nv.protocol.SimpleTelnetMsg;
+
 public class HelpCommander extends AbstractCommander {
     public HelpCommander() {
-       this.concreteCommand = Commands.CONSUMERS;
+        this.concreteCommand = Commands.CONSUMERS;
     }
 
     @Override
     public void processRequest(String clientRequest) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.enveloper.setMsg(new SimpleTelnetMsg());
+        for (Commands curCommand : Commands.values()) {
+            enveloper.addMsgContent(curCommand.getExplanation());
+        }
     }
 
     @Override

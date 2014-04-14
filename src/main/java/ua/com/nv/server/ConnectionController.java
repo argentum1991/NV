@@ -20,7 +20,7 @@ class ConnectionController implements Callable<Object>, Sender<String> {
 
     public ConnectionController(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        director = new SimpleTelnetDirector();
+        director = new SimpleTelnetDirector(this);
         writer = new PrintWriter(clientSocket.getOutputStream());
     }
 
