@@ -3,29 +3,47 @@ package ua.com.nv.server;
 
 import java.io.IOException;
 
-public class Client implements ClientNetStatusControl,Sender<String> {
-    private ConnectionController controller;
-    public String clientId;
+public class Client implements ClientNetStatusControl<String>,Sender<String> {
+    private Sender<String> sender;
+    private String userName;
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    private String pass;
 
 
-    public Client(String clientId) {
-        this.clientId = clientId;
+    public Client(String userName) {
+        this.userName = userName;
     }
 
     public boolean inOnlineMode() {
-        return (controller == null);
+        return (sender == null);
     }
     @Override
     public void setOfflineMode() {
-        controller = null;
+        sender = null;
     }
     @Override
-    public void setOnlineMode(ConnectionController controller) throws IOException {
-        this.controller = controller;
+    public void setOnlineMode(Sender sender) {
+        this.sender = sender;
     }
     @Override
     public void sendMsg(String msg) {
-        controller.sendMsg(msg);
+        sender.sendMsg(msg);
     }
 
     @Override
@@ -35,13 +53,13 @@ public class Client implements ClientNetStatusControl,Sender<String> {
 
         Client that = (Client) o;
 
-        if (clientId != null ? !clientId.equals(that.clientId) : that.clientId != null) return false;
+        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        return clientId != null ? clientId.hashCode() : 0;
+        return userName != null ? userName.hashCode() : 0;
     }
 
 

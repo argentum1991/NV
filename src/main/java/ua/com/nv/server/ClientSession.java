@@ -11,4 +11,5 @@ public class ClientSession {
     public boolean isAuthenticated() {
         return clientId == null;
     }
+
 }

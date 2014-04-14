@@ -1,12 +1,8 @@
 package ua.com.nv.protocol.commander;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Land
- * Date: 13.04.14
- * Time: 12:33
- * To change this template use File | Settings | File Templates.
- */
+
+import ua.com.nv.protocol.SimpleTelnetMsg;
+
 public class LogoutCommander extends AbstractCommander {
     public LogoutCommander() {
         this.concreteCommand = Commands.LOGOUT;
@@ -14,12 +10,14 @@ public class LogoutCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.director.sessionInvalidate();
+        enveloper.setMsg(new SimpleTelnetMsg());
+        enveloper.addMsgContent("You out");
     }
 
     @Override
     public String getResponseMsg() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

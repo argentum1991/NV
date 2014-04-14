@@ -1,12 +1,12 @@
 package ua.com.nv.protocol.commander;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Land
- * Date: 13.04.14
- * Time: 12:40
- * To change this template use File | Settings | File Templates.
- */
+
+import ua.com.nv.protocol.SimpleTelnetMsg;
+import ua.com.nv.server.Client;
+import ua.com.nv.server.util.ClientsBook;
+
+import java.util.Collection;
+
 public class ConsumersCommander extends AbstractCommander {
     public ConsumersCommander() {
         this.concreteCommand = Commands.CONSUMERS;
@@ -14,13 +14,23 @@ public class ConsumersCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        enveloper.setMsg(new SimpleTelnetMsg());
+        Collection<Client> clients = ClientsBook.getAllClients();
+        enveloper.addCommandInfoHeader(this.concreteCommand);
+        for (Client curClient : clients) {
+            String row;
+            if (curClient.inOnlineMode()) {
+                row = String.format("%s -- online \n", curClient.clientId);
+
+            } else {
+                row = String.format("%s -- offline \n", curClient.clientId);
+            }
+            enveloper.addMsgContent(row);
+        }
+
     }
 
-    @Override
-    public String getResponseMsg() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public String getReceiverId() {
