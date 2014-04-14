@@ -44,9 +44,8 @@ public class SimpleTelnetDirector implements MsgDirector, ClientSecurityControl 
         }
         Commander nextCommander = CommanderBook.getCommander(clientCommand);
         if (nextCommander != null) {
-
             DirectedCommanderGraph.
-                    isPossibleNextCommand(currentCommander.getCommandAlias(),nextCommander.getCommandAlias());
+                    isPossibleNextCommand(currentCommander.getCommandAlias(), nextCommander.getCommandAlias());
             this.currentCommander = nextCommander;
         }
         return currentCommander;
