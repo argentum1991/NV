@@ -4,13 +4,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import ua.com.nv.protocol.commander.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 15.04.14
- * Time: 10:40
- * To change this template use File | Settings | File Templates.
- */
+
 public class CommanderBookTest {
     @Test
     public void testGetCommander() throws Exception {

@@ -10,8 +10,9 @@ public class SimpleTelnetEnveloper {
     private SimpleTelnetMsg msg;
 
     public void addCommandInfoHeader(Commands command) {
-        StringBuilder header = new StringBuilder("Use: " + command.toString() + "\n");
+        StringBuilder header = new StringBuilder(command.toString().toUpperCase()+":" + "\n");
         header.append(command.getExplanation());
+        header.append("\n");
         msg.appendToHeader(header.toString());
     }
 

@@ -48,14 +48,19 @@ public class LoginCommander extends AbstractCommander {
         String nextStage = getNextStageCaption();
         log.info("NEXT STAGE:" + nextStage);
 
-        log.info("LOGIN:" + login);
-        log.info("PASS:" + pass);
+
 
         if (login == null) {
             login = clientRequest;
             enveloper.addMsgContent(nextStage);
+            log.info("LOGIN:" + login);
+            log.info("PASS:" + pass);
         } else if (pass == null) {
+
             pass = clientRequest;
+            log.info("LOGIN:" + login);
+            log.info("PASS:" + pass);
+
             director.setDataForClientSession(login, pass);
             ClientSession session = director.getSession();
             if (session.isAuthenticated()) {
@@ -69,6 +74,8 @@ public class LoginCommander extends AbstractCommander {
             pass = null;
             stageIterator = null;
         }
+
+
 
     }
 
