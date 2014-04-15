@@ -40,11 +40,11 @@ public final class ClientsBook {
         }
     }
 
-    public Client addClient(String userName, String pass) {
+    public static boolean addClient(String userName, String pass) {
         Client inserted = new Client(userName);
         inserted.setPass(pass);
-        return clients.putIfAbsent(userName, inserted);
-
+        Client got = clients.putIfAbsent(userName, inserted);
+        return inserted.getPass().equals(got.getPass());
 
     }
 

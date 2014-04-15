@@ -56,7 +56,7 @@ public class LoginCommander extends AbstractCommander {
 
         } else {
             director.setDataForClientSession(login, pass);
-            ClientSession session = director.getClientSession();
+            ClientSession session = director.getSession();
             if (session.isAuthenticated()) {
                 enveloper.addWelcomeUserHeader(login);
                 inProcess = false;

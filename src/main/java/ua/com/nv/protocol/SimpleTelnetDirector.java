@@ -5,21 +5,16 @@ import ua.com.nv.protocol.commander.Commander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
 import ua.com.nv.protocol.commander.util.CommanderBook;
 import ua.com.nv.protocol.commander.util.DirectedCommanderGraph;
-import ua.com.nv.server.ClientSecurityControl;
 import ua.com.nv.server.ClientSession;
-
-import ua.com.nv.protocol.commander.util.CommanderBook;
 import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
-
-
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class SimpleTelnetDirector implements MsgDirector, ClientSecurityControl, SessionDirector {
-    ClientSession session;
+public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
+    ClientSession session =new ClientSession();
     private Commander currentCommander = new WelcomeCommander();
     private Sender sender;
 
@@ -82,15 +77,20 @@ public class SimpleTelnetDirector implements MsgDirector, ClientSecurityControl,
         return new CommandAndBody(command, content);
     }
 
-    @Override
-    public ClientSession getClientSession() {
-        return session;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public void setDataForClientSession(String user, String pass) {
-        ClientsBook.bindSenderToClient(user, pass, sender);
+      if (ClientsBook.bindSenderToClient(user, pass, sender)){
+       session.setClientId(user);
+      }
     }
+
+    @Override
+    public boolean setDataForClientRegistration(String user, String pass) {
+        return ClientsBook.addClient(user,pass);  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 
     @Override
     public void sessionInvalidate() {

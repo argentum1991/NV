@@ -9,11 +9,11 @@ import java.util.regex.Pattern;
 
 public class PrivatecastCommander extends AbstractCommander {
     String toWhom;
+
     public PrivatecastCommander() {
-
-
-        this.concreteCommand = Commands.PRIVATE;
+      this.concreteCommand = Commands.PRIVATE;
     }
+
 
     @Override
     public void processRequest(String clientRequest) {
@@ -33,12 +33,12 @@ public class PrivatecastCommander extends AbstractCommander {
 
     @Override
     public String getResponseMsg() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return toWhom;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
