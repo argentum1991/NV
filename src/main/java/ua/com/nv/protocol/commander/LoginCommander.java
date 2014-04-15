@@ -40,25 +40,22 @@ public class LoginCommander extends AbstractCommander {
             stageIterator = stages.iterator();
             inProcess = true;
             String nextStage = getNextStageCaption();
-            log.info("NEXT STAGE:"+nextStage);
+            log.info("NEXT STAGE:" + nextStage);
             enveloper.addResponseCommandHeader(nextStage);
-             return;
+            return;
         }
 
         String nextStage = getNextStageCaption();
-        log.info("NEXT STAGE:"+nextStage);
+        log.info("NEXT STAGE:" + nextStage);
 
-        log.info("LOGIN:"+login);
-        log.info("PASS:"+pass);
+        log.info("LOGIN:" + login);
+        log.info("PASS:" + pass);
 
         if (login == null) {
             login = clientRequest;
             enveloper.addMsgContent(nextStage);
         } else if (pass == null) {
             pass = clientRequest;
-            enveloper.addMsgContent(nextStage);
-
-        } else {
             director.setDataForClientSession(login, pass);
             ClientSession session = director.getSession();
             if (session.isAuthenticated()) {

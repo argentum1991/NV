@@ -32,6 +32,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         String content = cb.body;
         log.info("COMMAND:" + command + "--CONTENT:" + content);
         Commander commander = getCurrentCommander(command);
+        commander.setSessionDirector(this);
         commander.processRequest(content);
 
     }

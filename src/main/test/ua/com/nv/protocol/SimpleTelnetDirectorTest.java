@@ -12,6 +12,7 @@ import org.junit.Test;
 public class SimpleTelnetDirectorTest {
     @Test
     public void testGetResponseMsg() throws Exception {
+
         SimpleTelnetDirector director = new SimpleTelnetDirector(null);
         director.processRequest("LOGIN:");
         String response1 = director.getResponseMsg();
@@ -21,7 +22,6 @@ public class SimpleTelnetDirectorTest {
 
         director.processRequest("nayman");
         String response3 = director.getResponseMsg();
-
 
     }
 
