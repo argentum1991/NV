@@ -54,6 +54,10 @@ public final class DirectedCommanderGraph {
         diGraph.addEdge("LOGOUT:", "HELP:");
 
         diGraph.addEdge("REGISTER:","LOGIN:");
+
+        diGraph.addEdge("WELCOME:","LOGIN:");
+        diGraph.addEdge("WELCOME:","REGISTER:");
+
     }
 
     public static boolean isPossibleNextCommand(String prevCommand, String nextCommand) {

@@ -33,11 +33,11 @@ public class SimpleTelnetEnveloper {
     }
 
     public void addResponseCommandHeader(String response) {
-
+    msg.appendToHeader(response);
     }
 
     public void addMsgContent(String content) {
-
+    msg.appendToContent(content);
     }
 
 

@@ -9,26 +9,24 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 11.04.14
- * Time: 17:17
- * To change this template use File | Settings | File Templates.
- */
+
 public class Server {
     List<Callable> connections = new ArrayList<>();
-    ClientsBook book = new ClientsBook();
+    ExecutorService pool= Executors.newCachedThreadPool();
 
     public static void main(String[] args) {
-
+    Server server=new Server();
+    server.init();
+    server.receiveClients();
 
     }
 
     public void init() {
-        List<String> clients = ClientDao.getClientsId();
-        book.addClients(clients);
+        List<Client> clients = ClientDao.getClientsId();
+        ClientsBook.addClients(clients);
 
     }
 
@@ -50,7 +48,8 @@ public class Server {
         try {
 
             ConnectionController controller = new ConnectionController(client);
-
+            connections.add(controller);
+            pool.submit(controller);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

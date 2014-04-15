@@ -20,10 +20,9 @@ public class ConsumersCommander extends AbstractCommander {
         for (Client curClient : clients) {
             String row;
             if (curClient.inOnlineMode()) {
-                row = String.format("%s -- online \n", curClient.clientId);
-
+                row = String.format("%s -- online \n", curClient.getUserName());
             } else {
-                row = String.format("%s -- offline \n", curClient.clientId);
+                row = String.format("%s -- offline \n", curClient.getUserName());
             }
             enveloper.addMsgContent(row);
         }

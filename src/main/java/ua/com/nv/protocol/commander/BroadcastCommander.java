@@ -7,7 +7,7 @@ import ua.com.nv.server.ClientSession;
 public class BroadcastCommander extends AbstractCommander {
 
 
-    BroadcastCommander() {
+   public BroadcastCommander() {
         this.concreteCommand = Commands.BROADCAST;
     }
 
@@ -15,13 +15,19 @@ public class BroadcastCommander extends AbstractCommander {
     public void processRequest(String clientRequest) {
         enveloper.setMsg(new SimpleTelnetMsg());
         enveloper.addMsgContent(clientRequest);
+
     }
 
+    @Override
+    public String getResponseMsg() {
+        return enveloper.getResponseMsg();
+
+    }
 
 
     @Override
     public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "BROADCAST";  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

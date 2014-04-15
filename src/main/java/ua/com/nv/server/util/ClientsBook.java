@@ -13,7 +13,9 @@ public final class ClientsBook {
     private static ConcurrentHashMap<String, Client> clients = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, HashSet<String>> undeliveredMsg = new ConcurrentHashMap<>();
 
+    private ClientsBook(){
 
+    }
     public static void transmitMsg(String userName, String msg) {
         if (userName.equals("BROADCAST")) {
             for (Client receiver : clients.values()) {
@@ -34,9 +36,9 @@ public final class ClientsBook {
 
     }
 
-    public static void addClients(List<String> userName) {
-        for (String keyId : userName) {
-            clients.putIfAbsent(keyId, new Client(keyId));
+    public static void addClients(List<Client> clientList) {
+        for (Client curClient : clientList) {
+            clients.putIfAbsent(curClient.getUserName(), curClient);
         }
     }
 

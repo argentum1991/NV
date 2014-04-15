@@ -9,9 +9,10 @@ import ua.com.nv.server.ClientSession;
 public abstract class AbstractCommander implements Commander {
     protected boolean inProcess = false;
     protected Commands concreteCommand;
-    protected SimpleTelnetEnveloper enveloper;
+    protected SimpleTelnetEnveloper enveloper=new SimpleTelnetEnveloper();
     SessionDirector director;
 
+    @Override
     public String getResponseMsg() {
         return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
     }

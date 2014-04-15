@@ -1,5 +1,6 @@
 package ua.com.nv.protocol.commander.util;
 
+import org.apache.log4j.Logger;
 import ua.com.nv.protocol.commander.*;
 
 import java.util.Set;
@@ -7,7 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public final class CommanderBook {
-    private static ConcurrentHashMap<String, Class> commanders=new ConcurrentHashMap<>();
+    private final static Logger log = Logger.getLogger(CommanderBook.class);
+    private static ConcurrentHashMap<String, Class> commanders = new ConcurrentHashMap<>();
+
     /*
         HELP("list all commands"),
     CONSUMERS("list all online consumers"),
@@ -28,20 +31,27 @@ public final class CommanderBook {
         commanders.put("BROADCAST:", BroadcastCommander.class);
         commanders.put("CONSUMERS:", ConsumersCommander.class);
         commanders.put("HELP:", HelpCommander.class);
-        commanders.put("REGISTER:",RegisterCommander.class);
+        commanders.put("REGISTER:", RegisterCommander.class);
         commanders.put("HISTORY:", HelpCommander.class);
-
-
+        commanders.put("WELCOME:",WelcomeCommander.class);
     }
+
     @SuppressWarnings("checked")
     public static Commander getCommander(String request) {
         Commander returned = null;
-        if (!commanders.contains(request)) {
+
+       ;
+
+        if (!commanders.containsKey(request)) {
+            log.info("REQUEST-"+request +" - NO");
             return returned;
+
         }
 
         try {
             returned = (Commander) commanders.get(request).newInstance();
+            log.info("REQUEST-"+request + " - COMMANDER"+ returned);
+
             return returned;
         } catch (Exception ex) {
             ex.printStackTrace();

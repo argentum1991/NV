@@ -15,10 +15,7 @@ public class LogoutCommander extends AbstractCommander {
         enveloper.addMsgContent("You out");
     }
 
-    @Override
-    public String getResponseMsg() {
-        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public String getReceiverId() {

@@ -9,12 +9,15 @@ import ua.com.nv.server.ClientSession;
 import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
-    ClientSession session =new ClientSession();
+
+    private final static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommanderBook.class);
+    ClientSession session = new ClientSession();
     private Commander currentCommander = new WelcomeCommander();
     private Sender sender;
 
@@ -27,13 +30,15 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         CommandAndBody cb = getClientCommandAndContent(clientRequest);
         String command = cb.command;
         String content = cb.body;
+        log.info("COMMAND:" + command + "--CONTENT:" + content);
         Commander commander = getCurrentCommander(command);
         commander.processRequest(content);
-        commander.getResponseMsg();
+
     }
 
     @Override
     public String getResponseMsg() {
+        log.info("RESPONSE MSG IN DIRECTOR:" + currentCommander.getResponseMsg());
         return currentCommander.getResponseMsg();
 
     }
@@ -55,9 +60,11 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         }
         Commander nextCommander = CommanderBook.getCommander(clientCommand);
         if (nextCommander != null) {
-            DirectedCommanderGraph.
+            boolean isPossible = DirectedCommanderGraph.
                     isPossibleNextCommand(currentCommander.getCommandAlias(), nextCommander.getCommandAlias());
-            this.currentCommander = nextCommander;
+            if (isPossible) {
+                this.currentCommander = nextCommander;
+            }
         }
         return currentCommander;
     }
@@ -78,17 +85,16 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     }
 
 
-
     @Override
     public void setDataForClientSession(String user, String pass) {
-      if (ClientsBook.bindSenderToClient(user, pass, sender)){
-       session.setClientId(user);
-      }
+        if (ClientsBook.bindSenderToClient(user, pass, sender)) {
+            session.setClientId(user);
+        }
     }
 
     @Override
     public boolean setDataForClientRegistration(String user, String pass) {
-        return ClientsBook.addClient(user,pass);  //To change body of implemented methods use File | Settings | File Templates.
+        return ClientsBook.addClient(user, pass);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 

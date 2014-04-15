@@ -1,9 +1,7 @@
 package ua.com.nv.protocol.commander;
 
 
-
-
-
+import org.apache.log4j.Logger;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.server.ClientSession;
 
@@ -12,10 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
-
 public class LoginCommander extends AbstractCommander {
 
-
+    private final Logger log = Logger.getLogger(LoginCommander.class);
     private String login;
     private String pass;
     private Iterator<String> stageIterator;
@@ -39,20 +36,27 @@ public class LoginCommander extends AbstractCommander {
 
         this.enveloper.setMsg(new SimpleTelnetMsg());
 
-        if (!inProcess || stageIterator==null) {
+        if (!inProcess || stageIterator == null) {
             stageIterator = stages.iterator();
             inProcess = true;
-            enveloper.addCommandInfoHeader(this.concreteCommand);
-            return;
+            String nextStage = getNextStageCaption();
+            log.info("NEXT STAGE:"+nextStage);
+            enveloper.addResponseCommandHeader(nextStage);
+             return;
         }
 
         String nextStage = getNextStageCaption();
-        enveloper.addMsgContent(nextStage);
+        log.info("NEXT STAGE:"+nextStage);
+
+        log.info("LOGIN:"+login);
+        log.info("PASS:"+pass);
 
         if (login == null) {
             login = clientRequest;
+            enveloper.addMsgContent(nextStage);
         } else if (pass == null) {
             pass = clientRequest;
+            enveloper.addMsgContent(nextStage);
 
         } else {
             director.setDataForClientSession(login, pass);
@@ -84,7 +88,7 @@ public class LoginCommander extends AbstractCommander {
 
     @Override
     public String getResponseMsg() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

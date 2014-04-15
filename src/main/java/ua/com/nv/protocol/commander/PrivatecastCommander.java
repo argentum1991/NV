@@ -8,10 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PrivatecastCommander extends AbstractCommander {
+
     String toWhom;
 
     public PrivatecastCommander() {
-      this.concreteCommand = Commands.PRIVATE;
+        this.concreteCommand = Commands.PRIVATE;
     }
 
 
@@ -19,22 +20,20 @@ public class PrivatecastCommander extends AbstractCommander {
     public void processRequest(String clientRequest) {
         NameAndBody nb = getClientCommandAndContent(clientRequest);
         this.enveloper.setMsg(new SimpleTelnetMsg());
-        if (!nb.name.isEmpty()){
-        this.toWhom=nb.name;
-        };
+        if (!nb.name.isEmpty()) {
+            this.toWhom = nb.name;
+        }
 
-        String msg=nb.body;
+
+        String msg = nb.body;
         this.enveloper.addMsgContent(msg);
-        ClientSession session=director.getClientSession();
+        ClientSession session = director.getSession();
         putStampOn(session);
 
 
     }
 
-    @Override
-    public String getResponseMsg() {
-        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public String getReceiverId() {
