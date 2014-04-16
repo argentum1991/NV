@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import ua.com.nv.protocol.commander.*;
 
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -98,7 +97,11 @@ public final class CommanderBook {
         Commander returnedCommander = currentCommander;
         Commander nextCommander = CommanderBook.getCommander(clientCommand);
         if (nextCommander != null) {
-
+            boolean logically = checkForLogicallyPossibleNextCommand(currentCommander, nextCommander);
+            boolean access = checkForClientAccessNextCommand(nextCommander, status);
+            if (logically && access) {
+                return nextCommander ;
+            }
         }
 
         return returnedCommander;

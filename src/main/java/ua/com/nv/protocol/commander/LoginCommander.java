@@ -2,6 +2,7 @@ package ua.com.nv.protocol.commander;
 
 
 import org.apache.log4j.Logger;
+import ua.com.nv.protocol.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.server.ClientSession;
 
@@ -10,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class LoginCommander extends AbstractCommander {
+public class LoginCommander extends AbstractCommander<SimpleTelnetEnveloper> {
 
     private final Logger log = Logger.getLogger(LoginCommander.class);
     private String login;
@@ -43,8 +44,6 @@ public class LoginCommander extends AbstractCommander {
             log.info("NEXT STAGE:" + nextStage);
             return;
         }
-
-
 
         if (login == null) {
             login = clientRequest;

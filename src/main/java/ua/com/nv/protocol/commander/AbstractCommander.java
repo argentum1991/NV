@@ -2,14 +2,13 @@ package ua.com.nv.protocol.commander;
 
 
 import ua.com.nv.protocol.SessionDirector;
-import ua.com.nv.protocol.SimpleTelnetEnveloper;
 import ua.com.nv.server.ClientSession;
 
 
-public abstract class AbstractCommander implements Commander {
+public abstract class AbstractCommander<T extends MsgEnveloper> implements Commander {
     protected boolean inProcess = false;
     protected Commands concreteCommand;
-    protected SimpleTelnetEnveloper enveloper=new SimpleTelnetEnveloper();
+    protected T enveloper;
     SessionDirector director;
 
     @Override
@@ -18,8 +17,8 @@ public abstract class AbstractCommander implements Commander {
     }
 
     protected void putStampOn(ClientSession session) {
-        String stamp = String.format("AUTOR:%s \n", session.clientId);
-        enveloper.addResponseCommandHeader(stamp);
+        String stamp = String.format("AUTOR:%s \n", session.client.getUserName());
+        enveloper.addMsgHeader(stamp);
     }
 
     @Override
@@ -39,5 +38,6 @@ public abstract class AbstractCommander implements Commander {
     public boolean isBreakable(){
     return true;
     }
+
 
 }

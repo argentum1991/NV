@@ -13,9 +13,10 @@ public final class ClientsBook {
     private static ConcurrentHashMap<String, Client> clients = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, HashSet<String>> undeliveredMsg = new ConcurrentHashMap<>();
 
-    private ClientsBook(){
+    private ClientsBook() {
 
     }
+
     public static void transmitMsg(String userName, String msg) {
         if (userName.equals("BROADCAST")) {
             for (Client receiver : clients.values()) {
@@ -43,11 +44,10 @@ public final class ClientsBook {
     }
 
     public static boolean addClient(String userName, String pass) {
-        Client inserted = new Client(userName);
+        Client inserted = new Client(userName, 1);
         inserted.setPass(pass);
         Client got = clients.putIfAbsent(userName, inserted);
         return inserted.getPass().equals(got.getPass());
-
     }
 
     public static Collection<Client> getAllClients() {
@@ -61,19 +61,26 @@ public final class ClientsBook {
     }
 
 
-    public static boolean bindSenderToClient(String userName, String pass, Sender sender) {
+    public static Client bindSenderToClient(String userName, String pass, Sender sender) {
         if (clients.contains(userName)) {
             Client curClient = clients.get(userName);
             if (curClient.getPass().equals(pass)) {
                 curClient.setOnlineMode(sender);
-                return true;
+                return curClient;
             }
         }
-        return false;
+        return null;
     }
 
-    public static void addUndeliveredMsg() {
+    public static Collection<String> redeliverMsg(String userName) {
+        return undeliveredMsg.get(userName);
 
+    }
+
+    public static void addUndeliveredMsg(String userName, String msg) {
+        if (undeliveredMsg.contains(userName)) {
+            undeliveredMsg.get(userName).add(msg);
+        }
     }
 
 }

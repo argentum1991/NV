@@ -1,13 +1,14 @@
 package ua.com.nv.protocol.commander;
 
 
+import ua.com.nv.protocol.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.server.Client;
 import ua.com.nv.server.util.ClientsBook;
 
 import java.util.Collection;
 
-public class ConsumersCommander extends AbstractCommander {
+public class ConsumersCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
     public ConsumersCommander() {
         this.concreteCommand = Commands.CONSUMERS;
     }

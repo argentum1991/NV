@@ -1,8 +1,8 @@
 package ua.com.nv.protocol.commander;
 
 import org.apache.log4j.Logger;
+import ua.com.nv.protocol.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.server.ClientSession;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import java.util.List;
 
 
 
-public class RegisterCommander extends AbstractCommander {
+public class RegisterCommander  extends AbstractCommander<SimpleTelnetEnveloper>{
 
     private static final Logger log= Logger.getLogger(RegisterCommander.class);
 

@@ -1,10 +1,10 @@
 package ua.com.nv.protocol.commander;
 
 
+import ua.com.nv.protocol.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.server.ClientSession;
 
-public class BroadcastCommander extends AbstractCommander {
+public class BroadcastCommander extends AbstractCommander<SimpleTelnetEnveloper> {
 
 
    public BroadcastCommander() {
@@ -18,11 +18,7 @@ public class BroadcastCommander extends AbstractCommander {
 
     }
 
-    @Override
-    public String getResponseMsg() {
-        return enveloper.getResponseMsg();
 
-    }
 
 
     @Override

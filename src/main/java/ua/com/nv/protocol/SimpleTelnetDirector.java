@@ -2,14 +2,12 @@ package ua.com.nv.protocol;
 
 
 import ua.com.nv.protocol.commander.Commander;
-import ua.com.nv.protocol.commander.Commands;
 import ua.com.nv.protocol.commander.WelcomeCommander;
 import ua.com.nv.protocol.commander.util.CommanderBook;
-import ua.com.nv.protocol.commander.util.DirectedCommanderGraph;
+import ua.com.nv.server.Client;
 import ua.com.nv.server.ClientSession;
 import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
-
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,12 +30,16 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         String command = cb.command;
         String content = cb.body;
         log.info("COMMAND:" + command + "--CONTENT:" + content);
-        Commander nextCommander = currentCommander = CommanderBook.
+        Commander nextCommander = CommanderBook.
                 getCurrentCommander(currentCommander, command, session.getStatus());
         if (nextCommander.getClass() != currentCommander.getClass()) {
             this.currentCommander = nextCommander;
             currentCommander.setSessionDirector(this);
-            currentCommander.processRequest(content);
+        }
+        currentCommander.processRequest(content);
+        if (!currentCommander.inProcess() && session.getStatus() == 0) {
+            currentCommander = new WelcomeCommander();
+            currentCommander.processRequest("");
         }
 
     }
@@ -78,8 +80,9 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void setDataForClientSession(String user, String pass) {
-        if (ClientsBook.bindSenderToClient(user, pass, sender)) {
-            session.
+        Client client = ClientsBook.bindSenderToClient(user, pass, sender);
+        if (client != null) {
+            session.setClient(client);
         }
     }
 
@@ -91,9 +94,8 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void sessionInvalidate() {
-        session.clientId = null;
-        ClientsBook.unbindSenderFromClient(session.clientId);
-
+        ClientsBook.unbindSenderFromClient(session.client.getUserName());
+        session.setClient(null);
     }
 
     private class CommandAndBody {

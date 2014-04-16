@@ -1,13 +1,14 @@
 package ua.com.nv.protocol.commander;
 
 
+import ua.com.nv.protocol.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.server.ClientSession;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PrivatecastCommander extends AbstractCommander {
+public class PrivatecastCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
 
     String toWhom;
 
