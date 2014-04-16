@@ -4,12 +4,14 @@ import org.apache.log4j.Logger;
 import ua.com.nv.protocol.commander.*;
 
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public final class CommanderBook {
     private final static Logger log = Logger.getLogger(CommanderBook.class);
     private static ConcurrentHashMap<String, Class> commanders = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Class, Integer> commanderStatus = new ConcurrentHashMap<>();
 
     /*
         HELP("list all commands"),
@@ -33,24 +35,34 @@ public final class CommanderBook {
         commanders.put("HELP:", HelpCommander.class);
         commanders.put("REGISTER:", RegisterCommander.class);
         commanders.put("HISTORY:", HelpCommander.class);
-        commanders.put("WELCOME:",WelcomeCommander.class);
+        commanders.put("WELCOME:", WelcomeCommander.class);
+
+
+        commanderStatus.put(LoginCommander.class, 0);
+        commanderStatus.put(LogoutCommander.class, 1);
+        commanderStatus.put(ConsumersCommander.class, 1);
+        commanderStatus.put(BroadcastCommander.class, 1);
+        commanderStatus.put(HelpCommander.class, 0);
+        commanderStatus.put(WelcomeCommander.class, 0);
+        commanderStatus.put(PrivatecastCommander.class, 1);
+        commanderStatus.put(RegisterCommander.class, 0);
+        commanderStatus.put(HelpCommander.class, 1);
+
+
     }
 
     @SuppressWarnings("checked")
     public static Commander getCommander(String request) {
         Commander returned = null;
 
-       ;
-
         if (!commanders.containsKey(request)) {
-            log.info("REQUEST-"+request +" - NO");
+            log.info("REQUEST-" + request + " - NO");
             return returned;
-
         }
 
         try {
             returned = (Commander) commanders.get(request).newInstance();
-            log.info("REQUEST-"+request + " - COMMANDER"+ returned);
+            log.info("REQUEST-" + request + " - COMMANDER" + returned);
 
             return returned;
         } catch (Exception ex) {
@@ -61,6 +73,50 @@ public final class CommanderBook {
 
     public static Set<String> getCommanderAliases() {
         return commanders.keySet();
+    }
+
+    public static Commander getCurrentCommander(Commander currentCommander, String clientCommand, int status) {
+       /*
+        if (clientCommand.equals(Commands.HOME.toString()+":")) {
+            this.currentCommander = CommanderBook.getCommander(Commands.WELCOME.toString()+":");
+            return this.currentCommander;
+        }
+        */
+
+        if (currentCommander.inProcess()) {
+            if (currentCommander.isBreakable()) {
+                return getNextCommander(currentCommander, clientCommand, status);
+            }
+        } else {
+            return getNextCommander(currentCommander, clientCommand, status);
+        }
+        return currentCommander;
+    }
+
+
+    private static Commander getNextCommander(Commander currentCommander, String clientCommand, int status) {
+        Commander returnedCommander = currentCommander;
+        Commander nextCommander = CommanderBook.getCommander(clientCommand);
+        if (nextCommander != null) {
+
+        }
+
+        return returnedCommander;
+    }
+
+    private static boolean checkForLogicallyPossibleNextCommand(Commander currentCommander, Commander nextCommander) {
+        return DirectedCommanderGraph.
+                isPossibleNextCommand(currentCommander.getCommandAlias(),
+                        nextCommander.getCommandAlias());
+    }
+
+    private static boolean checkForClientAccessNextCommand(Commander nextCommand, int status) {
+        int minKey = commanderStatus.get(nextCommand.getClass());
+        if (status >= minKey) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

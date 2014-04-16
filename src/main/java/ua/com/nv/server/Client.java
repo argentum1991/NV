@@ -6,7 +6,11 @@ import java.io.IOException;
 public class Client implements ClientNetStatusControl<String>,Sender<String> {
     private Sender<String> sender;
     private String userName;
+    private int status;
 
+    public int getStatus(){
+     return  status;
+    }
     public String getPass() {
         return pass;
     }
@@ -26,7 +30,8 @@ public class Client implements ClientNetStatusControl<String>,Sender<String> {
     private String pass;
 
 
-    public Client(String userName) {
+    public Client(String userName, int status) {
+        this.status=status;
         this.userName = userName;
     }
 

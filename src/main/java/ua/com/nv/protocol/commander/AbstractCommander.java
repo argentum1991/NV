@@ -31,5 +31,13 @@ public abstract class AbstractCommander implements Commander {
         this.director = director;
 
     }
+    @Override
+    public boolean inProcess(){
+    return inProcess;
+    }
+    @Override
+    public boolean isBreakable(){
+    return true;
+    }
 
 }

@@ -2,14 +2,21 @@ package ua.com.nv.server;
 
 
 public class ClientSession {
-    public String clientId;
+    public Client client;
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public boolean isAuthenticated() {
-        return clientId != null;
+        return client != null;
+    }
+
+    public int getStatus() {
+        if (isAuthenticated()) {
+            return client.getStatus();
+        }
+        return 0;
     }
 
 }

@@ -40,10 +40,7 @@ public class PrivatecastCommander extends AbstractCommander {
         return toWhom;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public boolean isContinue() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     private NameAndBody getClientCommandAndContent(String request) {
         String regex = "-[A-Z]+-";//LOGOUT:, BROADCAST:, PRIVATE: and so on

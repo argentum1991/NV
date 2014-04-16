@@ -70,6 +70,7 @@ public final class DirectedCommanderGraph {
         diGraph.addEdge("WELCOME:", "HELP:");
 
 
+
     }
 
     public static boolean isPossibleNextCommand(String prevCommand, String nextCommand) {

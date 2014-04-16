@@ -3,6 +3,8 @@ package ua.com.nv.protocol;
 
 import ua.com.nv.protocol.commander.Commands;
 
+import java.nio.file.attribute.UserDefinedFileAttributeView;
+
 public class SimpleTelnetEnveloper {
 
 
@@ -24,6 +26,13 @@ public class SimpleTelnetEnveloper {
     public void addUnknownUserHeader() {
         msg.appendToHeader("Sorry, but your login or pass is incorrect\n");
     }
+    public void addSuccesfullyRegisterHeader(String userName){
+         msg.appendToHeader("Congratulations, you successfully add new user with nickname:" + userName);
+    }
+    public void addUnsuccessRegisterHeader(String userName){
+        msg.appendToHeader("Sorry, but user with this nickname:" + userName +" is present");
+    }
+
 
     public void addUnknownCommandHeader(String command, String likeCommand) {
         msg.appendToHeader(String.format("Sorry, but this commander: %s is unknown\n", command));

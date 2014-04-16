@@ -24,6 +24,13 @@ public class SimpleTelnetDirectorTest {
         director.processRequest("erik");
         String response4 = director.getResponseMsg();
 
+        director.processRequest("LOGIN:");
+        String response6 = director.getResponseMsg();
+        director.processRequest("LOGOUT:");
+        String response7 = director.getResponseMsg();
+
+
+
         director.processRequest("katsman");
         String response5 = director.getResponseMsg();
 

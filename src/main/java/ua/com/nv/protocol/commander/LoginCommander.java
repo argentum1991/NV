@@ -23,30 +23,26 @@ public class LoginCommander extends AbstractCommander {
         String[] commands = {"Please, enter your name:\n", "Please, enter your password:\n"};
         stages = Arrays.<String>asList(commands);
         this.concreteCommand = Commands.LOGIN;
-
+        stageIterator=stages.iterator();
     }
 
-    @Override
-    public boolean isContinue() {
-        return inProcess;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public void processRequest(String clientRequest) {
 
         this.enveloper.setMsg(new SimpleTelnetMsg());
-
-        if (!inProcess || stageIterator == null) {
-            stageIterator = stages.iterator();
+        String nextStage = getNextStageCaption();
+        if (!inProcess ){
             inProcess = true;
-            String nextStage = getNextStageCaption();
+            stageIterator = stages.iterator();
+            nextStage = getNextStageCaption();
             log.info("NEXT STAGE:" + nextStage);
             enveloper.addResponseCommandHeader(nextStage);
+            enveloper.addMsgContent(nextStage);
+            log.info("NEXT STAGE:" + nextStage);
             return;
         }
-
-        String nextStage = getNextStageCaption();
-        log.info("NEXT STAGE:" + nextStage);
 
 
 
@@ -65,14 +61,15 @@ public class LoginCommander extends AbstractCommander {
             ClientSession session = director.getSession();
             if (session.isAuthenticated()) {
                 enveloper.addWelcomeUserHeader(login);
-                inProcess = false;
+
             } else {
                 enveloper.addUnknownUserHeader();
             }
 
+            inProcess = false;
             login = null;
             pass = null;
-            stageIterator = null;
+
         }
 
 
@@ -98,6 +95,10 @@ public class LoginCommander extends AbstractCommander {
     @Override
     public String getReceiverId() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+    @Override
+    public boolean isBreakable(){
+     return false;
     }
 
 }

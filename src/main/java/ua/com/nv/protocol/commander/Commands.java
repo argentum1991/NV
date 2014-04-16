@@ -11,7 +11,8 @@ public enum Commands {
     REGISTER("add new user "),
     HISTORY("last 30 msg"),
     WELCOME("Welcome to chat!\n please try to login or register yourself.\n " +
-            "Available for now commands are \n LOGIN:\n or REGISTER:\n");
+            "Available for now commands are \n LOGIN:\n or REGISTER:\n"),
+    HOME("Go to welcome Page");
 
     Commands(String explanation) {
         this.explanation = explanation;
