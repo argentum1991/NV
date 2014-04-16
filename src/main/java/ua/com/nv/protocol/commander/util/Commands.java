@@ -1,4 +1,4 @@
-package ua.com.nv.protocol.commander;
+package ua.com.nv.protocol.commander.util;
 
 
 public enum Commands {

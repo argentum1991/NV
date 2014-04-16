@@ -1,6 +1,7 @@
-package ua.com.nv.protocol;
+package ua.com.nv.protocol.director;
 
 import org.junit.Test;
+import ua.com.nv.protocol.director.SimpleTelnetDirector;
 
 
 public class SimpleTelnetDirectorTest {

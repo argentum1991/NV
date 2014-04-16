@@ -1,8 +1,8 @@
-package ua.com.nv.protocol;
+package ua.com.nv.protocol.builder;
 
 
+import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.Commands;
-import ua.com.nv.protocol.commander.MsgEnveloper;
 
 public class SimpleTelnetEnveloper implements MsgEnveloper {
 

@@ -1,4 +1,4 @@
-package ua.com.nv.protocol;
+package ua.com.nv.protocol.director;
 
 
 public interface MsgDirector {
