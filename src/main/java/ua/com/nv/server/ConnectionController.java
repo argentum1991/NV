@@ -1,8 +1,7 @@
 package ua.com.nv.server;
 
 import org.apache.log4j.Logger;
-import sun.rmi.runtime.Log;
-import ua.com.nv.protocol.SimpleTelnetDirector;
+import ua.com.nv.protocol.director.SimpleTelnetDirector;
 import ua.com.nv.server.util.ClientsBook;
 
 import java.io.BufferedReader;

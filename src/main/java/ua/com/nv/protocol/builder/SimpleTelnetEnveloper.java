@@ -2,7 +2,7 @@ package ua.com.nv.protocol.builder;
 
 
 import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.Commands;
+import ua.com.nv.protocol.commander.util.Commands;
 
 public class SimpleTelnetEnveloper implements MsgEnveloper {
 

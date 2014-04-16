@@ -1,8 +1,9 @@
 package ua.com.nv.protocol.commander;
 
 
-import ua.com.nv.protocol.SimpleTelnetEnveloper;
+import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
+import ua.com.nv.protocol.commander.util.Commands;
 
 public class WelcomeCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
 

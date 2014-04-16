@@ -1,7 +1,7 @@
 package ua.com.nv.protocol.commander;
 
-import ua.com.nv.protocol.MsgDirector;
-import ua.com.nv.protocol.SessionDirector;
+import ua.com.nv.protocol.director.MsgDirector;
+import ua.com.nv.protocol.director.SessionDirector;
 
 
 
