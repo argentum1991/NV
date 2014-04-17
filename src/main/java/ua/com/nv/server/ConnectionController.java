@@ -9,21 +9,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 
-class ConnectionController implements Callable<Object>, Sender<String> {
+class ConnectionController implements Callable<Boolean>, Sender<String> {
    private Logger log=Logger.getLogger(ConnectionController.class);
 
     private Socket clientSocket;
     private SimpleTelnetDirector director;
     private PrintWriter writer;
-
-
-    public ConnectionController(Socket clientSocket) throws IOException {
+    private int socketLocalPort;
+    private Set<Callable> connections;
+    public ConnectionController(Socket clientSocket,Set<Callable> connections) throws IOException {
         this.clientSocket = clientSocket;
+        socketLocalPort=clientSocket.getLocalPort();
         director = new SimpleTelnetDirector(this);
         writer = new PrintWriter(clientSocket.getOutputStream());
+        this.connections=connections;
     }
 
     @Override
@@ -33,7 +36,7 @@ class ConnectionController implements Callable<Object>, Sender<String> {
     }
 
     @Override
-    public Object call() throws Exception {
+    public Boolean call() throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String nextRequest = "";
         director.processRequest("");
@@ -54,7 +57,25 @@ class ConnectionController implements Callable<Object>, Sender<String> {
             }
 
         }
-        return new Object();
+        connections.remove(this);
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConnectionController that = (ConnectionController) o;
+
+        if (socketLocalPort != that.socketLocalPort) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return socketLocalPort;
     }
 
 }

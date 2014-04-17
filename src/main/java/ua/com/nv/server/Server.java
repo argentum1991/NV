@@ -7,21 +7,22 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 public class Server {
-    List<Callable> connections = new ArrayList<>();
-    ExecutorService pool= Executors.newCachedThreadPool();
+    Set<Callable> connections = new HashSet<Callable>();
+    ExecutorService pool = Executors.newCachedThreadPool();
 
     public static void main(String[] args) {
-    Server server=new Server();
-    server.init();
-    server.receiveClients();
-
+        Server server = new Server();
+        server.init();
+        server.receiveClients();
     }
 
     public void init() {
@@ -47,7 +48,7 @@ public class Server {
     private void addNewClient(Socket client) {
         try {
 
-            ConnectionController controller = new ConnectionController(client);
+            ConnectionController controller = new ConnectionController(client,connections);
             connections.add(controller);
             pool.submit(controller);
         } catch (Exception ex) {
