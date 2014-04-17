@@ -4,9 +4,11 @@ package ua.com.nv.protocol.director;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.commander.AbstractCommander;
+import ua.com.nv.protocol.commander.BroadcastCommander;
 import ua.com.nv.protocol.commander.Commander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
 import ua.com.nv.protocol.commander.util.CommanderBook;
+import ua.com.nv.protocol.commander.util.Commands;
 import ua.com.nv.server.Client;
 import ua.com.nv.server.ClientSession;
 import ua.com.nv.server.Sender;
@@ -44,11 +46,18 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         currentCommander.processRequest(content);
         String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
-        if (!currentCommander.inProcess() && session.getStatus() == 0) {
-            currentCommander = new WelcomeCommander();
-            currentCommander.processRequest("");
-            enveloper.addMsgContent(currentCommander.getResponseMsg());
+        if (!currentCommander.inProcess()){
+            if( session.getStatus() == 0) {
+                currentCommander = new WelcomeCommander();
+                currentCommander.processRequest("");
+                enveloper.addMsgContent(currentCommander.getResponseMsg());
+            }else {
+                currentCommander = new BroadcastCommander();
+                enveloper.addMsgContent(Commands.BROADCAST.getExplanation());
+            }
         }
+
+
 
     }
 
