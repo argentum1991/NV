@@ -35,7 +35,7 @@ public class RegisterCommander  extends AbstractCommander{
     @Override
     public void processRequest(String clientRequest) {
 
-        this.enveloper.setMsg(new SimpleTelnetMsg());
+
 
         if (!inProcess || stageIterator == null) {
             stageIterator = stages.iterator();
@@ -103,10 +103,7 @@ public class RegisterCommander  extends AbstractCommander{
 
     }
 
-    @Override
-    public String getResponseMsg() {
-        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public String getReceiverId() {

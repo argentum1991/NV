@@ -25,27 +25,25 @@ public class LoginCommander extends AbstractCommander {
         String[] commands = {"Please, enter your name:\n", "Please, enter your password:\n"};
         stages = Arrays.<String>asList(commands);
         this.concreteCommand = Commands.LOGIN;
-        stageIterator=stages.iterator();
+        stageIterator = stages.iterator();
     }
-
 
 
     @Override
     public void processRequest(String clientRequest) {
 
-        this.enveloper.setMsg(new SimpleTelnetMsg());
-        String nextStage = getNextStageCaption();
-        if (!inProcess ){
+        if (!inProcess) {
+
             inProcess = true;
             stageIterator = stages.iterator();
-            nextStage = getNextStageCaption();
+            String nextStage = getNextStageCaption();
             log.info("NEXT STAGE:" + nextStage);
             enveloper.addResponseCommandHeader(nextStage);
-            enveloper.addMsgContent(nextStage);
-            log.info("NEXT STAGE:" + nextStage);
+
+
             return;
         }
-
+        String nextStage = getNextStageCaption();
         if (login == null) {
             login = clientRequest;
             enveloper.addMsgContent(nextStage);
@@ -73,7 +71,6 @@ public class LoginCommander extends AbstractCommander {
         }
 
 
-
     }
 
     private String getNextStageCaption() {
@@ -87,15 +84,10 @@ public class LoginCommander extends AbstractCommander {
 
     }
 
-    @Override
-    public String getResponseMsg() {
-        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
 
     @Override
-    public boolean isBreakable(){
-     return false;
+    public boolean isBreakable() {
+        return false;
     }
 
 }

@@ -14,7 +14,7 @@ public class BroadcastCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        enveloper.setMsg(new SimpleTelnetMsg());
+       inProcess=true;
         enveloper.addMsgContent(clientRequest);
     }
 

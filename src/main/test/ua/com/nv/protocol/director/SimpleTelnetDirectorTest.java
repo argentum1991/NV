@@ -34,19 +34,5 @@ public class SimpleTelnetDirectorTest {
 
     }
 
-    @Test
-    public void testGetReceiverId() throws Exception {
 
-    }
-
-    @Test
-    public void testSetDataForClientRegistration() throws Exception {
-
-    }
-
-    @Test
-    public void testGetClientCommandAndContent() throws Exception {
-
-
-    }
 }

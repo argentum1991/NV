@@ -1,6 +1,8 @@
 package ua.com.nv.protocol.director;
 
 
+import ua.com.nv.protocol.SimpleTelnetMsg;
+import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.commander.AbstractCommander;
 import ua.com.nv.protocol.commander.Commander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
@@ -20,13 +22,14 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     ClientSession session = new ClientSession();
     private AbstractCommander currentCommander = new WelcomeCommander();
     private Sender sender;
-
+    protected SimpleTelnetEnveloper enveloper=new SimpleTelnetEnveloper();
     public SimpleTelnetDirector(Sender sender) {
         this.sender = sender;
     }
 
     @Override
     public void processRequest(String clientRequest) {
+        enveloper.setMsg(new SimpleTelnetMsg());
         CommandAndBody cb = getClientCommandAndContent(clientRequest);
         String command = cb.command;
         String content = cb.body;
@@ -39,9 +42,11 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         }
         currentCommander.processRequest(content);
         String response=currentCommander.getResponseMsg();
+        enveloper.addMsgContent(response);
         if (!currentCommander.inProcess() && session.getStatus() == 0) {
             currentCommander = new WelcomeCommander();
-            currentCommander.processRequest("",response);
+            currentCommander.processRequest("");
+            enveloper.addMsgContent(currentCommander.getResponseMsg());
         }
 
     }
@@ -49,7 +54,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     @Override
     public String getResponseMsg() {
         log.info("RESPONSE MSG IN DIRECTOR:" + currentCommander.getResponseMsg());
-        return currentCommander.getResponseMsg();
+        return enveloper.getResponseMsg();
 
     }
 

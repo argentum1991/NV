@@ -13,7 +13,7 @@ public class LogoutCommander  extends AbstractCommander {
     @Override
     public void processRequest(String clientRequest) {
         this.director.sessionInvalidate();
-        enveloper.setMsg(new SimpleTelnetMsg());
+
         enveloper.addMsgContent("You out");
     }
 

@@ -12,7 +12,7 @@ public class HelpCommander  extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        this.enveloper.setMsg(new SimpleTelnetMsg());
+       inProcess=true;
         for (Commands curCommand : Commands.values()) {
             enveloper.addCommandInfoHeader(curCommand);
         }

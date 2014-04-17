@@ -26,7 +26,7 @@ public abstract class AbstractCommander implements Commander {
 
 
     public void processRequest(String clientRequest,String preparedMsg){
-    enveloper.addMsgContent(preparedMsg);
+    enveloper.addMsgHeader(preparedMsg);
     processRequest(clientRequest);
     }
 

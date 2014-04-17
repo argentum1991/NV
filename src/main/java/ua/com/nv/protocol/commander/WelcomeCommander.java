@@ -14,15 +14,12 @@ public class WelcomeCommander  extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        this.enveloper.setMsg(new SimpleTelnetMsg());
+      inProcess=true;
         this.enveloper.addCommandInfoHeader(concreteCommand);
 
     }
 
-    @Override
-    public String getResponseMsg() {
-        return enveloper.getResponseMsg();
-    }
+
 
 
 
