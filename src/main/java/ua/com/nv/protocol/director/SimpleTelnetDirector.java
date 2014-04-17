@@ -22,7 +22,8 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     ClientSession session = new ClientSession();
     private AbstractCommander currentCommander = new WelcomeCommander();
     private Sender sender;
-    protected SimpleTelnetEnveloper enveloper=new SimpleTelnetEnveloper();
+    protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
+
     public SimpleTelnetDirector(Sender sender) {
         this.sender = sender;
     }
@@ -41,7 +42,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
             currentCommander.setSessionDirector(this);
         }
         currentCommander.processRequest(content);
-        String response=currentCommander.getResponseMsg();
+        String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
         if (!currentCommander.inProcess() && session.getStatus() == 0) {
             currentCommander = new WelcomeCommander();

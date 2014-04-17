@@ -40,14 +40,19 @@ public final class ClientsBook {
     public static void addClients(List<Client> clientList) {
         for (Client curClient : clientList) {
             clients.putIfAbsent(curClient.getUserName(), curClient);
+            undeliveredMsg.putIfAbsent(curClient.getUserName(), new HashSet<String>());
         }
     }
 
     public static boolean addClient(String userName, String pass) {
-        Client inserted = new Client(userName, 1);
-        inserted.setPass(pass);
-        Client got = clients.putIfAbsent(userName, inserted);
-        return inserted.getPass().equals(got.getPass());
+        if (!clients.containsKey(userName)) {
+            Client inserted = new Client(userName, 1);
+            inserted.setPass(pass);
+            clients.put(userName, inserted);
+            undeliveredMsg.putIfAbsent(inserted.getUserName(), new HashSet<String>());
+            return true;
+        }
+        return false;
     }
 
     public static Collection<Client> getAllClients() {
@@ -56,23 +61,29 @@ public final class ClientsBook {
 
 
     public static void unbindSenderFromClient(String userName) {
-        Client client = clients.get(userName);
-        client.setOfflineMode();
+        if (clients.containsKey(userName)) {
+            Client client = clients.get(userName);
+            client.setOfflineMode();
+        }
+
+
     }
 
 
     public static Client bindSenderToClient(String userName, String pass, Sender sender) {
-        if (clients.contains(userName)) {
+        if (clients.containsKey(userName)) {
             Client curClient = clients.get(userName);
             if (curClient.getPass().equals(pass)) {
                 curClient.setOnlineMode(sender);
+                Collection<String> set = getUndeliveredMsg(curClient.getUserName());
+                deliverMsgToAppearedClient(curClient,set);
                 return curClient;
             }
         }
         return null;
     }
 
-    public static Collection<String> redeliverMsg(String userName) {
+    public static Collection<String> getUndeliveredMsg(String userName) {
         return undeliveredMsg.get(userName);
 
     }
@@ -82,5 +93,15 @@ public final class ClientsBook {
             undeliveredMsg.get(userName).add(msg);
         }
     }
+
+    private static void deliverMsgToAppearedClient(Client client, Collection<String> set) {
+        for (String msg : set) {
+            client.sendMsg(msg);
+
+        }
+        set.clear();
+
+    }
+
 
 }

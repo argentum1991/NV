@@ -13,19 +13,19 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
         msg=new SimpleTelnetMsg();
     }
     public void addCommandInfoHeader(Commands command) {
-        StringBuilder header = new StringBuilder(command.toString().toUpperCase() + ":" + "\n");
+        StringBuilder header = new StringBuilder(command.toString().toUpperCase() + ":" );
         header.append(command.getExplanation());
-        header.append("\n");
+
         msg.appendToHeader(header.toString());
     }
 
 
     public void addWelcomeUserHeader(String user) {
-        msg.appendToHeader("Hello, " + user + "\n");
+        msg.appendToHeader("Hello, " + user  );
     }
 
     public void addUnknownUserHeader() {
-        msg.appendToHeader("Sorry, but your login or pass is incorrect\n");
+        msg.appendToHeader("Sorry, but your login or pass is incorrect");
     }
 
     public void addSuccesfullyRegisterHeader(String userName) {
@@ -38,7 +38,7 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
 
 
     public void addUnknownCommandHeader(String command, String likeCommand) {
-        msg.appendToHeader(String.format("Sorry, but this commander: %s is unknown\n", command));
+        msg.appendToHeader(String.format("Sorry, but this commander: %s is unknown", command));
         if (!likeCommand.isEmpty()) {
             msg.appendToHeader(String.format("but maybe you want:%s ", likeCommand));
         }

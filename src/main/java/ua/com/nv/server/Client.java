@@ -36,7 +36,7 @@ public class Client implements ClientNetStatusControl<String>,Sender<String> {
     }
 
     public boolean inOnlineMode() {
-        return (sender == null);
+        return (sender != null);
     }
     @Override
     public void setOfflineMode() {

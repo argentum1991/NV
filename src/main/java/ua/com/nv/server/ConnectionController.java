@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 
-class ConnectionController implements Callable<Boolean>, Sender<String> {
+public class ConnectionController implements Callable<Boolean>, Sender<String> {
    private Logger log=Logger.getLogger(ConnectionController.class);
 
     private Socket clientSocket;
@@ -51,8 +51,13 @@ class ConnectionController implements Callable<Boolean>, Sender<String> {
                     sendMsg(msgResponse);
                 } else {
                     String clientId = director.getReceiverId();
-                    log.info("ClientId:"+clientId);
-                    ClientsBook.transmitMsg(clientId, msgResponse);
+                    if (clientId!=null){
+                        log.info("ClientId:"+clientId);
+                        ClientsBook.transmitMsg(clientId, msgResponse);
+                    }else {
+                    sendMsg(msgResponse);
+                    }
+
                 }
             }
 
