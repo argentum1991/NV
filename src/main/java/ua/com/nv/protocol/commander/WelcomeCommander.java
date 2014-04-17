@@ -5,7 +5,7 @@ import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.Commands;
 
-public class WelcomeCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
+public class WelcomeCommander  extends AbstractCommander {
 
 
     public WelcomeCommander() {
@@ -24,10 +24,6 @@ public class WelcomeCommander  extends AbstractCommander<SimpleTelnetEnveloper> 
         return enveloper.getResponseMsg();
     }
 
-    @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
 
 }

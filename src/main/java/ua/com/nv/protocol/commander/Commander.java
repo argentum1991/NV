@@ -5,7 +5,7 @@ import ua.com.nv.protocol.director.SessionDirector;
 
 
 
-public interface Commander extends Transaction, MsgDirector{
+public interface Commander  extends Transaction, MsgDirector{
     public void setSessionDirector(SessionDirector director);
     public String getCommandAlias();
 }

@@ -9,7 +9,7 @@ import ua.com.nv.server.util.ClientsBook;
 
 import java.util.Collection;
 
-public class ConsumersCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
+public class ConsumersCommander  extends AbstractCommander {
     public ConsumersCommander() {
         this.concreteCommand = Commands.CONSUMERS;
     }
@@ -31,10 +31,7 @@ public class ConsumersCommander  extends AbstractCommander<SimpleTelnetEnveloper
 
     }
 
-    @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 }
 
 

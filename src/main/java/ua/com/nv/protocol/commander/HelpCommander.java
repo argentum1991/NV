@@ -5,7 +5,7 @@ import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.Commands;
 
-public class HelpCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
+public class HelpCommander  extends AbstractCommander {
     public HelpCommander() {
         this.concreteCommand = Commands.HELP;
     }
@@ -20,10 +20,7 @@ public class HelpCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
 
 
 
-    @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
 
 }

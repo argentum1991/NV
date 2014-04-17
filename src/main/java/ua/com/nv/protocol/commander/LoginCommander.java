@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class LoginCommander extends AbstractCommander<SimpleTelnetEnveloper> {
+public class LoginCommander extends AbstractCommander {
 
     private final Logger log = Logger.getLogger(LoginCommander.class);
     private String login;
@@ -92,10 +92,7 @@ public class LoginCommander extends AbstractCommander<SimpleTelnetEnveloper> {
         return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
     @Override
     public boolean isBreakable(){
      return false;

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 
-public class RegisterCommander  extends AbstractCommander<SimpleTelnetEnveloper>{
+public class RegisterCommander  extends AbstractCommander{
 
     private static final Logger log= Logger.getLogger(RegisterCommander.class);
 

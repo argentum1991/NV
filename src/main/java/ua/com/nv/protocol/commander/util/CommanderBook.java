@@ -51,8 +51,8 @@ public final class CommanderBook {
     }
 
     @SuppressWarnings("checked")
-    public static Commander getCommander(String request) {
-        Commander returned = null;
+    public static AbstractCommander getCommander(String request) {
+        AbstractCommander returned = null;
 
         if (!commanders.containsKey(request)) {
             log.info("REQUEST-" + request + " - NO");
@@ -60,7 +60,7 @@ public final class CommanderBook {
         }
 
         try {
-            returned = (Commander) commanders.get(request).newInstance();
+            returned = (AbstractCommander) commanders.get(request).newInstance();
             log.info("REQUEST-" + request + " - COMMANDER" + returned);
 
             return returned;
@@ -74,7 +74,7 @@ public final class CommanderBook {
         return commanders.keySet();
     }
 
-    public static Commander getCurrentCommander(Commander currentCommander, String clientCommand, int status) {
+    public static AbstractCommander getCurrentCommander(AbstractCommander currentCommander, String clientCommand, int status) {
        /*
         if (clientCommand.equals(Commands.HOME.toString()+":")) {
             this.currentCommander = CommanderBook.getCommander(Commands.WELCOME.toString()+":");
@@ -93,9 +93,9 @@ public final class CommanderBook {
     }
 
 
-    private static Commander getNextCommander(Commander currentCommander, String clientCommand, int status) {
-        Commander returnedCommander = currentCommander;
-        Commander nextCommander = CommanderBook.getCommander(clientCommand);
+    private static AbstractCommander getNextCommander(AbstractCommander currentCommander, String clientCommand, int status) {
+        AbstractCommander returnedCommander = currentCommander;
+        AbstractCommander nextCommander = CommanderBook.getCommander(clientCommand);
         if (nextCommander != null) {
             boolean logically = checkForLogicallyPossibleNextCommand(currentCommander, nextCommander);
             boolean access = checkForClientAccessNextCommand(nextCommander, status);

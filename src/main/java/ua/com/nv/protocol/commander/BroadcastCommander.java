@@ -5,10 +5,10 @@ import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.Commands;
 
-public class BroadcastCommander extends AbstractCommander<SimpleTelnetEnveloper> {
+public class BroadcastCommander extends AbstractCommander {
 
 
-   public BroadcastCommander() {
+    public BroadcastCommander() {
         this.concreteCommand = Commands.BROADCAST;
     }
 
@@ -16,10 +16,7 @@ public class BroadcastCommander extends AbstractCommander<SimpleTelnetEnveloper>
     public void processRequest(String clientRequest) {
         enveloper.setMsg(new SimpleTelnetMsg());
         enveloper.addMsgContent(clientRequest);
-
     }
-
-
 
 
     @Override

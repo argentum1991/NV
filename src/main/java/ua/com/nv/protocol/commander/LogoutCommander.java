@@ -5,7 +5,7 @@ import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.Commands;
 
-public class LogoutCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
+public class LogoutCommander  extends AbstractCommander {
     public LogoutCommander() {
         this.concreteCommand = Commands.LOGOUT;
     }
@@ -19,10 +19,6 @@ public class LogoutCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
 
 
 
-    @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
 
 }

@@ -9,7 +9,7 @@ import ua.com.nv.server.ClientSession;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PrivatecastCommander  extends AbstractCommander<SimpleTelnetEnveloper> {
+public class PrivatecastCommander  extends AbstractCommander {
 
     String toWhom;
 
@@ -34,7 +34,6 @@ public class PrivatecastCommander  extends AbstractCommander<SimpleTelnetEnvelop
 
 
     }
-
 
 
     @Override

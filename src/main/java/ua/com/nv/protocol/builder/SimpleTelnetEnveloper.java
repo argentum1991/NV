@@ -9,6 +9,9 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
 
     private SimpleTelnetMsg msg;
 
+    public SimpleTelnetEnveloper(){
+        msg=new SimpleTelnetMsg();
+    }
     public void addCommandInfoHeader(Commands command) {
         StringBuilder header = new StringBuilder(command.toString().toUpperCase() + ":" + "\n");
         header.append(command.getExplanation());

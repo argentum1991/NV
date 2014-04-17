@@ -1,6 +1,7 @@
 package ua.com.nv.protocol.director;
 
 
+import ua.com.nv.protocol.commander.AbstractCommander;
 import ua.com.nv.protocol.commander.Commander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
 import ua.com.nv.protocol.commander.util.CommanderBook;
@@ -17,7 +18,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     private final static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommanderBook.class);
     ClientSession session = new ClientSession();
-    private Commander currentCommander = new WelcomeCommander();
+    private AbstractCommander currentCommander = new WelcomeCommander();
     private Sender sender;
 
     public SimpleTelnetDirector(Sender sender) {
@@ -30,16 +31,17 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         String command = cb.command;
         String content = cb.body;
         log.info("COMMAND:" + command + "--CONTENT:" + content);
-        Commander nextCommander = CommanderBook.
+        AbstractCommander nextCommander = CommanderBook.
                 getCurrentCommander(currentCommander, command, session.getStatus());
         if (nextCommander.getClass() != currentCommander.getClass()) {
             this.currentCommander = nextCommander;
             currentCommander.setSessionDirector(this);
         }
         currentCommander.processRequest(content);
+        String response=currentCommander.getResponseMsg();
         if (!currentCommander.inProcess() && session.getStatus() == 0) {
             currentCommander = new WelcomeCommander();
-            currentCommander.processRequest("");
+            currentCommander.processRequest("",response);
         }
 
     }
