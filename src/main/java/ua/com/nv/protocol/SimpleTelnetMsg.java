@@ -14,8 +14,9 @@ public class SimpleTelnetMsg {
     public void appendToContent(String msg) {
         fullContent.append(msg);
     }
-    public String toString(){
-    return String.format("%s\n %s",fullHeader,fullContent);
+
+    public String toString() {
+        return String.format("%s\n %s", fullHeader, fullContent);
     }
 
 }
