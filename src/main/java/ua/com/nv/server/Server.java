@@ -34,12 +34,10 @@ public class Server {
     public void receiveClients() {
 
         try (ServerSocket socket = new ServerSocket(7000)) {
-
             while (true) {
                 Socket nextClient = socket.accept();
                 addNewClient(nextClient);
             }
-
         } catch (IOException ix) {
             ix.printStackTrace();
         }
@@ -48,7 +46,7 @@ public class Server {
     private void addNewClient(Socket client) {
         try {
 
-            ConnectionController controller = new ConnectionController(client,connections);
+            ConnectionController controller = new ConnectionController(client, connections);
             connections.add(controller);
             pool.submit(controller);
         } catch (Exception ex) {

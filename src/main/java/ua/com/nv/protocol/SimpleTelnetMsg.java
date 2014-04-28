@@ -5,20 +5,17 @@ public class SimpleTelnetMsg {
     private StringBuilder fullHeader = new StringBuilder();
 
     public SimpleTelnetMsg() {
-
     }
 
-    public void appendToContent(String content) {
-        fullContent.append(content + "\r\n");
+    public void appendToHeader(String msg) {
+        fullHeader.append(msg);
     }
 
-    public void appendToHeader(String header) {
-        fullHeader.append(header + "\r\n");
+    public void appendToContent(String msg) {
+        fullContent.append(msg);
     }
-
-    public String toString() {
-        return String.format("%s\r\n%s", fullHeader, fullContent);
+    public String toString(){
+    return String.format("%s\n %s",fullHeader,fullContent);
     }
-
 
 }

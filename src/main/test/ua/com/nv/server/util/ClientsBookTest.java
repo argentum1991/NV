@@ -54,7 +54,6 @@ public class ClientsBookTest {
         ClientsBook.addClient("Katsman", "Sissfs");
         Set<Callable> set = new HashSet<Callable>();
         ConnectionController controller = null;
-
         Assert.assertEquals(ClientsBook.bindSenderToClient("Nayman", "Mayman", controller).getUserName(), "Nayman");
 
 
