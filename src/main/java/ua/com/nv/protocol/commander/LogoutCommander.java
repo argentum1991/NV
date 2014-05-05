@@ -1,13 +1,11 @@
 package ua.com.nv.protocol.commander;
 
 
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 
 public class LogoutCommander  extends AbstractCommander {
     public LogoutCommander() {
-        this.concreteCommand = Commands.LOGOUT;
+        this.concreteCommand = ChatCommands.LOGOUT;
     }
 
     @Override

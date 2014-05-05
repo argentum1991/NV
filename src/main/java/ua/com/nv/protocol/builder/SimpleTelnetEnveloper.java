@@ -2,7 +2,7 @@ package ua.com.nv.protocol.builder;
 
 
 import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 
 public class SimpleTelnetEnveloper implements MsgEnveloper {
 
@@ -12,7 +12,7 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
     public SimpleTelnetEnveloper(){
         msg=new SimpleTelnetMsg();
     }
-    public void addCommandInfoHeader(Commands command) {
+    public void addCommandInfoHeader(ChatCommands command) {
         StringBuilder header = new StringBuilder(command.toString().toUpperCase() + ":" );
         header.append(command.getExplanation());
 

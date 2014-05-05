@@ -1,15 +1,13 @@
 package ua.com.nv.protocol.commander;
 
 
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 
 public class BroadcastCommander extends AbstractCommander {
 
 
     public BroadcastCommander() {
-        this.concreteCommand = Commands.BROADCAST;
+        this.concreteCommand = ChatCommands.BROADCAST;
     }
 
     @Override

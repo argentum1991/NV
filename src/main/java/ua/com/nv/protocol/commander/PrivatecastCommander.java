@@ -1,9 +1,8 @@
 package ua.com.nv.protocol.commander;
 
 
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.server.ClientSession;
 
 import java.util.regex.Matcher;
@@ -14,7 +13,7 @@ public class PrivatecastCommander  extends AbstractCommander {
     String toWhom;
 
     public PrivatecastCommander() {
-        this.concreteCommand = Commands.PRIVATE;
+        this.concreteCommand = ChatCommands.PRIVATE;
     }
 
 

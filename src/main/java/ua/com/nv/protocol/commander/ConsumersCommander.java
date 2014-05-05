@@ -1,9 +1,7 @@
 package ua.com.nv.protocol.commander;
 
 
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.server.Client;
 import ua.com.nv.server.util.ClientsBook;
 
@@ -11,7 +9,7 @@ import java.util.Collection;
 
 public class ConsumersCommander  extends AbstractCommander {
     public ConsumersCommander() {
-        this.concreteCommand = Commands.CONSUMERS;
+        this.concreteCommand = ChatCommands.CONSUMERS;
     }
 
     @Override

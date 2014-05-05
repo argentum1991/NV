@@ -1,26 +1,20 @@
 package ua.com.nv.protocol.commander;
 
 
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 
-public class WelcomeCommander  extends AbstractCommander {
+public class WelcomeCommander extends AbstractCommander {
 
 
     public WelcomeCommander() {
-        this.concreteCommand = Commands.WELCOME;
+        this.concreteCommand = ChatCommands.WELCOME;
     }
 
     @Override
     public void processRequest(String clientRequest) {
-      inProcess=true;
+        inProcess = true;
         this.enveloper.addCommandInfoHeader(concreteCommand);
-
     }
-
-
-
 
 
 }

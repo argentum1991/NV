@@ -1,9 +1,7 @@
 package ua.com.nv.protocol.commander;
 
 import org.apache.log4j.Logger;
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -26,7 +24,7 @@ public class RegisterCommander  extends AbstractCommander{
 
         String[] commands = {"Please, enter your name:\n", "Please, enter your password:\n","Please, confirm your password:\n"};
         stages = Arrays.<String>asList(commands);
-        this.concreteCommand = Commands.REGISTER;
+        this.concreteCommand = ChatCommands.REGISTER;
 
     }
 

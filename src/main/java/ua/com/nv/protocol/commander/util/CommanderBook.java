@@ -76,8 +76,8 @@ public final class CommanderBook {
 
     public static AbstractCommander getCurrentCommander(AbstractCommander currentCommander, String clientCommand, int status) {
        /*
-        if (clientCommand.equals(Commands.HOME.toString()+":")) {
-            this.currentCommander = CommanderBook.getCommander(Commands.WELCOME.toString()+":");
+        if (clientCommand.equals(ChatCommands.HOME.toString()+":")) {
+            this.currentCommander = CommanderBook.getCommander(ChatCommands.WELCOME.toString()+":");
             return this.currentCommander;
         }
         */

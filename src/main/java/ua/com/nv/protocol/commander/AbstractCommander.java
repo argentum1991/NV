@@ -2,16 +2,15 @@ package ua.com.nv.protocol.commander;
 
 
 import ua.com.nv.protocol.SimpleTelnetMsg;
-import ua.com.nv.protocol.builder.MsgEnveloper;
 import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.commander.util.Commands;
+import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.director.SessionDirector;
 import ua.com.nv.server.ClientSession;
 
 
 public abstract class AbstractCommander implements Commander {
     protected boolean inProcess = false;
-    protected Commands concreteCommand;
+    protected ChatCommands concreteCommand;
     protected SimpleTelnetEnveloper enveloper=new SimpleTelnetEnveloper();
     SessionDirector director;
 
