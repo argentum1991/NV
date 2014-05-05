@@ -13,12 +13,13 @@ import ua.com.nv.server.ClientSession;
 import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
+public class SimpleTelnetDirector2 implements MsgDirector, SessionDirector {
 
     private final static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommanderBook.class);
     ClientSession session = new ClientSession();
@@ -26,9 +27,10 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     private Sender sender;
     protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
 
-    public SimpleTelnetDirector(Sender sender) {
+    public SimpleTelnetDirector2(Sender sender) {
         this.sender = sender;
     }
+
 
     @Override
     public void processRequest(String clientRequest) {
@@ -46,24 +48,32 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         currentCommander.processRequest(content);
         String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
-        if (!currentCommander.inProcess()){
-            if( session.getStatus() == 0) {
+        if (!currentCommander.inProcess()) {
+            if (session.getStatus() == 0) {
                 currentCommander = new WelcomeCommander();
                 currentCommander.processRequest("");
                 enveloper.addMsgContent(currentCommander.getResponseMsg());
-            }else {
+            } else {
                 currentCommander = new BroadcastCommander();
                 enveloper.addMsgContent(ChatCommands.BROADCAST.getExplanation());
             }
         }
 
 
-
     }
+
 
     @Override
     public void processClientInput(Reader reader) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        byte symbol;
+        try {
+            while ((symbol = (byte) reader.read()) != -1) {
+
+            }
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
     @Override
