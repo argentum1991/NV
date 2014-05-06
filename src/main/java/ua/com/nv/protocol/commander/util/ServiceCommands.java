@@ -10,17 +10,18 @@ public enum ServiceCommands {
     DO(253),
     DONT(254),
     DM(242),
+    EL(248),
     IAC(255);
 
-    private int code;
+    private char code;
 
     ServiceCommands(int code) {
-        this.code = code;
+        this.code =(char) code;
 
     }
 
-    public byte getCode() {
-        return (byte) code;
+    public char getCode() {
+        return  code;
     }
 
 

@@ -15,8 +15,15 @@ public class SimpleTelnetMsg {
         fullContent.append(msg);
     }
 
+    public void appendToHeader(char... symbols) {
+        for (char curChar : symbols) {
+            fullHeader.append(curChar);
+        }
+        ;
+    }
+
     public String toString() {
-        return String.format("%s\n %s", fullHeader, fullContent);
+        return String.format("%s %s", fullHeader, fullContent);
     }
 
 }

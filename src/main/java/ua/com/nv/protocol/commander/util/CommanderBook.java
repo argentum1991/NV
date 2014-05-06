@@ -51,18 +51,19 @@ public final class CommanderBook {
     }
 
     @SuppressWarnings("checked")
-    public static AbstractCommander getCommander(String request) {
-        AbstractCommander returned = null;
+    public static CommanderAndStatus getCommander(String request) {
+        CommanderAndStatus returned = null;
 
         if (!commanders.containsKey(request)) {
             log.info("REQUEST-" + request + " - NO");
-            return returned;
+            return new CommanderAndStatus(CommandStatus.WRONG, null);
         }
 
         try {
-            returned = (AbstractCommander) commanders.get(request).newInstance();
-            log.info("REQUEST-" + request + " - COMMANDER" + returned);
 
+            AbstractCommander commander = (AbstractCommander) commanders.get(request).newInstance();
+            log.info("REQUEST-" + request + " - COMMANDER" + commander);
+            returned = new CommanderAndStatus(CommandStatus.OK, commander);
             return returned;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -74,38 +75,40 @@ public final class CommanderBook {
         return commanders.keySet();
     }
 
-    public static AbstractCommander getCurrentCommander(AbstractCommander currentCommander, String clientCommand, int status) {
+    public static CommanderAndStatus getCurrentCommander(AbstractCommander currentCommander, String clientCommand, int status) {
        /*
         if (clientCommand.equals(ChatCommands.HOME.toString()+":")) {
             this.currentCommander = CommanderBook.getCommander(ChatCommands.WELCOME.toString()+":");
             return this.currentCommander;
         }
         */
+        return getNextCommander(currentCommander, clientCommand, status);
 
-        if (currentCommander.inProcess()) {
-            if (currentCommander.isBreakable()) {
-                return getNextCommander(currentCommander, clientCommand, status);
-            }
-        } else {
-            return getNextCommander(currentCommander, clientCommand, status);
-        }
-        return currentCommander;
     }
 
 
-    private static AbstractCommander getNextCommander(AbstractCommander currentCommander, String clientCommand, int status) {
-        AbstractCommander returnedCommander = currentCommander;
-        AbstractCommander nextCommander = CommanderBook.getCommander(clientCommand);
-        if (nextCommander != null) {
+    private static CommanderAndStatus getNextCommander(AbstractCommander currentCommander, String clientCommand, int status) {
+
+        CommanderAndStatus commanderAndStatus = CommanderBook.getCommander(clientCommand);
+        AbstractCommander nextCommander = commanderAndStatus.commander;
+        if (commanderAndStatus.commander != null) {
             boolean logically = checkForLogicallyPossibleNextCommand(currentCommander, nextCommander);
             boolean access = checkForClientAccessNextCommand(nextCommander, status);
-            if (logically && access) {
-                return nextCommander ;
+            if (!logically) {
+                commanderAndStatus.status = CommandStatus.LOGICALLY_IMPOSSIBLE;
+                commanderAndStatus.commander = currentCommander;
+                return commanderAndStatus;
             }
-        }
+            if (!access) {
+                commanderAndStatus.status = CommandStatus.FORBIDDEN_FOR_USER_STATUS;
+                commanderAndStatus.commander = currentCommander;
 
-        return returnedCommander;
+            }
+
+        }
+        return commanderAndStatus;
     }
+
 
     private static boolean checkForLogicallyPossibleNextCommand(Commander currentCommander, Commander nextCommander) {
         return DirectedCommanderGraph.
@@ -119,6 +122,16 @@ public final class CommanderBook {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public static class CommanderAndStatus {
+        public CommandStatus status;
+        public AbstractCommander commander;
+
+        public CommanderAndStatus(CommandStatus status, AbstractCommander commander) {
+            this.status = status;
+            this.commander = commander;
         }
     }
 

@@ -45,17 +45,17 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         currentCommander.processRequest(content);
         String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
-        if (!currentCommander.inProcess()){
-            if( session.getStatus() == 0) {
+        if (!currentCommander.inProcess()) {
+            if (session.getStatus() == 0) {
                 currentCommander = new WelcomeCommander();
                 currentCommander.processRequest("");
                 enveloper.addMsgContent(currentCommander.getResponseMsg());
-            }else {
+            } else {
                 currentCommander = new BroadcastCommander();
-                enveloper.addMsgContent(ChatCommands.BROADCAST.getExplanation());
+                currentCommander.setSessionDirector(this);
+
             }
         }
-
 
 
     }

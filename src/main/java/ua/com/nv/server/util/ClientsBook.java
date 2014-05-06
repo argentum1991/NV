@@ -65,8 +65,6 @@ public final class ClientsBook {
             Client client = clients.get(userName);
             client.setOfflineMode();
         }
-
-
     }
 
 

@@ -13,13 +13,14 @@ public class BroadcastCommander extends AbstractCommander {
     @Override
     public void processRequest(String clientRequest) {
        inProcess=true;
-        enveloper.addMsgContent(clientRequest);
+        putStampOn(director.getSession());
+        enveloper.addMsgContent(clientRequest+"\r\n");
     }
 
 
     @Override
     public String getReceiverId() {
-        return "BROADCAST";  //To change body of implemented methods use File | Settings | File Templates.
+        return "BROADCAST";
     }
 
 

@@ -20,12 +20,11 @@ public class LoginCommander extends AbstractCommander {
 
     public LoginCommander() {
 
-        String[] commands = {"Please, enter your name:\n", "Please, enter your password:\n"};
+        String[] commands = {"Please, enter your name:\r\n", "Please, enter your password:\r\n"};
         stages = Arrays.<String>asList(commands);
         this.concreteCommand = ChatCommands.LOGIN;
         stageIterator = stages.iterator();
     }
-
 
     @Override
     public void processRequest(String clientRequest) {
@@ -37,8 +36,6 @@ public class LoginCommander extends AbstractCommander {
             String nextStage = getNextStageCaption();
             log.info("NEXT STAGE:" + nextStage);
             enveloper.addResponseCommandHeader(nextStage);
-
-
             return;
         }
         String nextStage = getNextStageCaption();
@@ -56,6 +53,7 @@ public class LoginCommander extends AbstractCommander {
             director.setDataForClientSession(login, pass);
             ClientSession session = director.getSession();
             if (session.isAuthenticated()) {
+
                 enveloper.addWelcomeUserHeader(login);
 
             } else {

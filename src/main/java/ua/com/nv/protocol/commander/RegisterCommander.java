@@ -22,7 +22,7 @@ public class RegisterCommander  extends AbstractCommander{
     public RegisterCommander() {
 
 
-        String[] commands = {"Please, enter your name:\n", "Please, enter your password:\n","Please, confirm your password:\n"};
+        String[] commands = {"Please, enter your name:\r\n", "Please, enter your password:\r\n","Please, confirm your password:\r\n"};
         stages = Arrays.<String>asList(commands);
         this.concreteCommand = ChatCommands.REGISTER;
 
