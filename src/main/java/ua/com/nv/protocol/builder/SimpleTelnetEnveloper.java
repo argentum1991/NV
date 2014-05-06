@@ -16,7 +16,6 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
     public void addCommandInfoHeader(ChatCommands command) {
         StringBuilder header = new StringBuilder(command.toString().toUpperCase() + ":" );
         header.append(command.getExplanation());
-
         msg.appendToHeader(header.toString());
     }
 

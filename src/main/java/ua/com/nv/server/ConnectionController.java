@@ -39,12 +39,14 @@ public class ConnectionController implements Callable<Boolean>, Sender<String> {
     @Override
     public Boolean call() throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
         String nextRequest = "";
         director.processRequest("");
         String hello = director.getResponseMsg();
         sendMsg(hello);
         while ((nextRequest = reader.readLine()) != null) {
             director.processRequest(nextRequest);
+
             String msgResponse = director.getResponseMsg();
             log.info("MsgResponse:" + msgResponse);
             if (!msgResponse.isEmpty()) {
@@ -53,12 +55,15 @@ public class ConnectionController implements Callable<Boolean>, Sender<String> {
                 } else {
                     String clientId = director.getReceiverId();
                     if (clientId != null) {
+
                         log.info("ReceiverId:" + clientId);
+
                         ClientsBook.transmitMsg(clientId, msgResponse);
                     } else {
                         sendMsg(msgResponse);
                     }
                 }
+
             }
         }
         connections.remove(this);
