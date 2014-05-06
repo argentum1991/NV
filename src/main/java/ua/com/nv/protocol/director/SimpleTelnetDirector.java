@@ -46,21 +46,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
                 this.currentCommander = nextCommander;
                 currentCommander.setSessionDirector(this);
             }
-        } else {
-            if (!clientRequest.isEmpty()) {
-                CommandStatus status = cms.status;
-                switch (status) {
-                    case FORBIDDEN_FOR_USER_STATUS:
-                        enveloper.addMsgHeader("This command is prohibited for you");
-                        break;
-                    case LOGICALLY_IMPOSSIBLE:
-                        enveloper.addMsgHeader("This command is logically impossible after current");
-                        break;
-                    case WRONG:
-                        enveloper.addMsgHeader("This command is absent");
-                }
-            }
-        }
+
 
 
         currentCommander.processRequest(content);
