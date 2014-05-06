@@ -55,9 +55,7 @@ public class ConnectionController implements Callable<Boolean>, Sender<String> {
                 } else {
                     String clientId = director.getReceiverId();
                     if (clientId != null) {
-
                         log.info("ReceiverId:" + clientId);
-
                         ClientsBook.transmitMsg(clientId, msgResponse);
                     } else {
                         sendMsg(msgResponse);

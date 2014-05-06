@@ -7,6 +7,7 @@ import ua.com.nv.protocol.commander.AbstractCommander;
 import ua.com.nv.protocol.commander.BroadcastCommander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
 import ua.com.nv.protocol.commander.util.ChatCommands;
+import ua.com.nv.protocol.commander.util.CommandStatus;
 import ua.com.nv.protocol.commander.util.CommanderBook;
 import ua.com.nv.server.Client;
 import ua.com.nv.server.ClientSession;
@@ -37,12 +38,30 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         String command = cb.command;
         String content = cb.body;
         log.info("COMMAND:" + command + "--CONTENT:" + content);
-        AbstractCommander nextCommander = CommanderBook.
+        CommanderBook.CommanderAndStatus cms = CommanderBook.
                 getCurrentCommander(currentCommander, command, session.getStatus());
-        if (nextCommander.getClass() != currentCommander.getClass()) {
-            this.currentCommander = nextCommander;
-            currentCommander.setSessionDirector(this);
+        AbstractCommander nextCommander = cms.commander;
+        if (nextCommander != null) {
+            if (nextCommander.getClass() != currentCommander.getClass()) {
+                this.currentCommander = nextCommander;
+                currentCommander.setSessionDirector(this);
+            }
+        } else {
+            CommandStatus status=cms.status;
+            switch (status) {
+                case FORBIDDEN_FOR_USER_STATUS:
+                enveloper.addMsgHeader("This command is prohibited for you");
+                break;
+                case LOGICALLY_IMPOSSIBLE:
+                enveloper.addMsgHeader("This command is logically impossible after current");
+                break;
+                case WRONG:
+                enveloper.addMsgHeader("This command is absent");
+            }
+            return;
         }
+
+
         currentCommander.processRequest(content);
         String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
@@ -61,15 +80,6 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     }
 
-    @Override
-    public void processClientInput(Reader reader) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public boolean nextCycle() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public String getResponseMsg() {
