@@ -91,7 +91,7 @@ public final class CommanderBook {
 
         CommanderAndStatus commanderAndStatus = CommanderBook.getCommander(clientCommand);
         AbstractCommander nextCommander = commanderAndStatus.commander;
-        if (commanderAndStatus.commander != null) {
+        if (nextCommander != null) {
             boolean logically = checkForLogicallyPossibleNextCommand(currentCommander, nextCommander);
             boolean access = checkForClientAccessNextCommand(nextCommander, status);
             if (!logically) {
@@ -105,6 +105,8 @@ public final class CommanderBook {
 
             }
 
+        } else {
+            commanderAndStatus.commander=currentCommander;
         }
         return commanderAndStatus;
     }
