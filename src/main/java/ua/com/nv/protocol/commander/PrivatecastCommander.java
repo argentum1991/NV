@@ -8,7 +8,7 @@ import ua.com.nv.server.ClientSession;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PrivatecastCommander  extends AbstractCommander {
+public class PrivatecastCommander extends AbstractCommander {
 
     String toWhom;
 
@@ -25,12 +25,10 @@ public class PrivatecastCommander  extends AbstractCommander {
             this.toWhom = nb.name;
         }
 
-
         String msg = nb.body;
         this.enveloper.addMsgContent(msg);
         ClientSession session = director.getSession();
         putStampOn(session);
-
 
     }
 
@@ -39,7 +37,6 @@ public class PrivatecastCommander  extends AbstractCommander {
     public String getReceiverId() {
         return toWhom;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
 
 
     private NameAndBody getClientCommandAndContent(String request) {

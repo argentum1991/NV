@@ -25,21 +25,7 @@ public final class DirectedCommanderGraph {
 
         diGraph.addAllVertices(CommanderBook.getCommanderAliases());
 
-        diGraph.addEdge("CONSUMERS:", "HELP:");
-        diGraph.addEdge("LOGIN:", "HELP:");
-        diGraph.addEdge("BROADCAST:", "HELP:");
-        diGraph.addEdge("PRIVATE:", "HELP:");
-        diGraph.addEdge("REGISTER:", "HELP:");
-        diGraph.addEdge("CONSUMERS:", "HELP:");
-        diGraph.addEdge("WELCOME:", "HELP:");
 
-        diGraph.addEdge("HELP:", "CONSUMERS:");
-        diGraph.addEdge("HELP:", "LOGIN:");
-        diGraph.addEdge("HELP:", "BROADCAST:");
-        diGraph.addEdge("HELP:", "PRIVATE:");
-        diGraph.addEdge("HELP:", "REGISTER:");
-        diGraph.addEdge("HELP:", "CONSUMERS:");
-        diGraph.addEdge("HELP:", "WELCOME:");
 
 
         diGraph.addEdge("LOGIN:", "LOGOUT:");
@@ -61,13 +47,12 @@ public final class DirectedCommanderGraph {
 
         diGraph.addEdge("LOGOUT:", "REGISTER:");
         diGraph.addEdge("LOGOUT:", "LOGIN:");
-        diGraph.addEdge("LOGOUT:", "HELP:");
 
         diGraph.addEdge("REGISTER:", "LOGIN:");
 
         diGraph.addEdge("WELCOME:", "LOGIN:");
         diGraph.addEdge("WELCOME:", "REGISTER:");
-        diGraph.addEdge("WELCOME:", "HELP:");
+
 
 
 

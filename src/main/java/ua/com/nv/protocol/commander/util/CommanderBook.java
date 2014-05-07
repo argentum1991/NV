@@ -31,9 +31,8 @@ public final class CommanderBook {
         commanders.put("PRIVATE:", PrivatecastCommander.class);
         commanders.put("BROADCAST:", BroadcastCommander.class);
         commanders.put("CONSUMERS:", ConsumersCommander.class);
-        commanders.put("HELP:", HelpCommander.class);
         commanders.put("REGISTER:", RegisterCommander.class);
-        commanders.put("HISTORY:", HelpCommander.class);
+        commanders.put("HISTORY:", HistoryCommander.class);
         commanders.put("WELCOME:", WelcomeCommander.class);
 
 
@@ -41,11 +40,11 @@ public final class CommanderBook {
         commanderStatus.put(LogoutCommander.class, 1);
         commanderStatus.put(ConsumersCommander.class, 1);
         commanderStatus.put(BroadcastCommander.class, 1);
-        commanderStatus.put(HelpCommander.class, 0);
+
         commanderStatus.put(WelcomeCommander.class, 0);
         commanderStatus.put(PrivatecastCommander.class, 1);
         commanderStatus.put(RegisterCommander.class, 0);
-        commanderStatus.put(HelpCommander.class, 1);
+
 
 
     }
@@ -104,11 +103,11 @@ public final class CommanderBook {
             if (!access) {
                 commanderAndStatus.status = CommandStatus.FORBIDDEN_FOR_USER_STATUS;
                 commanderAndStatus.commander = currentCommander;
-
-            }
+             }
 
         } else {
             commanderAndStatus.commander = currentCommander;
+
         }
         return commanderAndStatus;
     }

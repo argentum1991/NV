@@ -11,8 +11,7 @@ public class LogoutCommander  extends AbstractCommander {
     @Override
     public void processRequest(String clientRequest) {
         this.director.sessionInvalidate();
-
-        enveloper.addMsgContent("You out");
+        enveloper.addMsgContent("You out\r\n");
     }
 
 

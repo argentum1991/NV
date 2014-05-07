@@ -1,26 +1,35 @@
 package ua.com.nv.protocol.commander;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.ChatCommands;
+import ua.com.nv.protocol.commander.util.CommandStatus;
 import ua.com.nv.protocol.commander.util.CommanderBook;
 
 
 
 public class ChangeCommander extends AbstractCommander {
+    private static Logger logger=Logger.getLogger(ChangeCommander.class);
     static String commandPattern = "^[A-Z]+:";//LOGOUT:, BROADCAST:, PRIVATE: and so on
-    static String header1 = "Please, check command\r\n" + ChatCommands.HELP.getExplanation();
+    static String header1 = "Attention, check command:\r\n";
 
 
     public AbstractCommander processRequest(String request, AbstractCommander currentCommander) {
         enveloper.setMsg(new SimpleTelnetMsg());
         if (!inProcess()) {
             inProcess = true;
-            enveloper.addMsgContent(header1);
-        } else {
-            if (request.matches(commandPattern)) {
-                return getCommander(currentCommander, request);
+            enveloper.addMsgHeader(header1);
+            for (ChatCommands curCommand : ChatCommands.values()) {
+                enveloper.addCommandInfoHeader(curCommand);
             }
+        } else if (request.matches(commandPattern)) {
+            return getCommander(currentCommander, request);
+        }else {
+            inProcess=true;
+            enveloper.addMsgContent(CommandStatus.WRONG.getExplanation());
         }
+
         return currentCommander;
 
     }
@@ -41,11 +50,11 @@ public class ChangeCommander extends AbstractCommander {
             if (nextCommander.getClass() != currentCommander.getClass()) {
                 currentCommander = nextCommander;
                 currentCommander.setSessionDirector(director);
-
             }
 
         }
-        enveloper.addMsgContent(cms.status.toString());
+        enveloper.addMsgContent(cms.status.getExplanation());
+        logger.info(cms.status.toString());
         return currentCommander;
 
     }

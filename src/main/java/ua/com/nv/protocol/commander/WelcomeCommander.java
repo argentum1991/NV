@@ -12,7 +12,7 @@ public class WelcomeCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        inProcess = true;
+
         this.enveloper.addCommandInfoHeader(concreteCommand);
     }
 

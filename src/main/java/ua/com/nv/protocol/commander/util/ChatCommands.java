@@ -6,7 +6,7 @@ public enum ChatCommands {
     50-137	Unassigned
      */
 
-    HELP("List all commands\r\n", (char)50),
+
     CONSUMERS("List all online consumers\r\n",(char) 51),
     PRIVATE("Your msg will be send only for selected consumer\r\n",(char) 52),
     BROADCAST("Your msg will be broadcasted to everyone\r\n",(char) 53),

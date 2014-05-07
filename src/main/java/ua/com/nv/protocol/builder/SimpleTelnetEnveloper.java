@@ -22,7 +22,7 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
 
     public void addWelcomeUserHeader(String user) {
         msg.appendToHeader("Hello, " + user +"\r\n"  );
-        msg.appendToHeader("You are in BROADCAST mode!\r\n Send HELP: and you know anything you want\r\n");
+        msg.appendToHeader("You are in BROADCAST mode!\r\n Send <ch:> : and select command\r\n");
     }
 
     public void addUnknownUserHeader() {

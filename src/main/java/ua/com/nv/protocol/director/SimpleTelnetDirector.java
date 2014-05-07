@@ -3,10 +3,7 @@ package ua.com.nv.protocol.director;
 
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.protocol.commander.AbstractCommander;
-import ua.com.nv.protocol.commander.BroadcastCommander;
-import ua.com.nv.protocol.commander.ChangeCommander;
-import ua.com.nv.protocol.commander.WelcomeCommander;
+import ua.com.nv.protocol.commander.*;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.commander.util.CommandStatus;
 import ua.com.nv.protocol.commander.util.CommanderBook;
@@ -26,35 +23,48 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     ClientSession session = new ClientSession();
     private static String regexForChangeCommand = "<ch:>";
     private AbstractCommander currentCommander = new WelcomeCommander();
-
+    private ChangeCommander changeCommander = new ChangeCommander();
+    private boolean tryChangeCommand = false;
     private Sender sender;
     protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
 
     public SimpleTelnetDirector(Sender sender) {
         this.sender = sender;
+        changeCommander.setSessionDirector(this);
+        currentCommander.setSessionDirector(this);
     }
 
     @Override
     public void processRequest(String clientRequest) {
         enveloper.setMsg(new SimpleTelnetMsg());
-        if (checkForChangeCommandRequest(clientRequest)) {
-            currentCommander = new ChangeCommander();
-            currentCommander.setSessionDirector(this);
+        String response = "";
+
+        if (tryChangeCommand || checkForChangeCommandRequest(clientRequest)) {
+            currentCommander = changeCommander.processRequest(clientRequest, currentCommander);
+            enveloper.addMsgContent(changeCommander.getResponseMsg());
+            tryChangeCommand = changeCommander.inProcess();
+            return;
+        } else {
+            currentCommander.processRequest(clientRequest);
+            response = currentCommander.getResponseMsg();
         }
 
-        currentCommander.processRequest(clientRequest);
-        String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
         if (!currentCommander.inProcess()) {
-            if (session.getStatus() == 0) {
+            if (currentCommander.getClass() == WelcomeCommander.class ) {
+            tryChangeCommand=true;
+            changeCommander.processRequest(clientRequest,currentCommander);
+            } else if (session.getStatus() == 0) {
                 currentCommander = new WelcomeCommander();
                 currentCommander.processRequest("");
                 enveloper.addMsgContent(currentCommander.getResponseMsg());
             } else {
                 currentCommander = new BroadcastCommander();
                 currentCommander.setSessionDirector(this);
-             }
+            }
         }
+
+
     }
 
 
@@ -95,6 +105,8 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     public void sessionInvalidate() {
         ClientsBook.unbindSenderFromClient(session.client.getUserName());
         session.setClient(null);
+        this.currentCommander=new WelcomeCommander();
+        currentCommander.processRequest("");
     }
 
     private boolean checkForChangeCommandRequest(String input) {
