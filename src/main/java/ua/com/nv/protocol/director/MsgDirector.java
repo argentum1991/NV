@@ -8,7 +8,7 @@ public interface MsgDirector {
 
     public String getResponseMsg();
 
-    public void processRequest(String request);
+    public void processRequest(String request) throws UnsupportedOperationException;
 
     public String getReceiverId();
 

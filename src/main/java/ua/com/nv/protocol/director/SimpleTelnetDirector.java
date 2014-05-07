@@ -5,6 +5,7 @@ import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.commander.AbstractCommander;
 import ua.com.nv.protocol.commander.BroadcastCommander;
+import ua.com.nv.protocol.commander.ChangeCommander;
 import ua.com.nv.protocol.commander.WelcomeCommander;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.commander.util.CommandStatus;
@@ -23,7 +24,9 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     private final static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommanderBook.class);
     ClientSession session = new ClientSession();
+    private static String regexForChangeCommand = "<ch:>";
     private AbstractCommander currentCommander = new WelcomeCommander();
+    private ChangeCommander changeCommander = new ChangeCommander();
     private Sender sender;
     protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
 
@@ -34,22 +37,8 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     @Override
     public void processRequest(String clientRequest) {
         enveloper.setMsg(new SimpleTelnetMsg());
-        CommandAndBody cb = getClientCommandAndContent(clientRequest);
-        String command = cb.command;
-        String content = cb.body;
-        log.info("COMMAND:" + command + "--CONTENT:" + content);
-        CommanderBook.CommanderAndStatus cms = CommanderBook.
-                getCurrentCommander(currentCommander, command, session.getStatus());
-        AbstractCommander nextCommander = cms.commander;
-        if (nextCommander != null) {
-            if (nextCommander.getClass() != currentCommander.getClass()) {
-                this.currentCommander = nextCommander;
-                currentCommander.setSessionDirector(this);
-            }
 
-
-
-        currentCommander.processRequest(content);
+        currentCommander.processRequest(clientRequest);
         String response = currentCommander.getResponseMsg();
         enveloper.addMsgContent(response);
         if (!currentCommander.inProcess()) {
@@ -63,8 +52,6 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
             }
         }
-
-
     }
 
 
@@ -84,21 +71,6 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     @Override
     public ClientSession getSession() {
         return session;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-
-    private CommandAndBody getClientCommandAndContent(String request) {
-        String regex = "^[A-Z]+:";//LOGOUT:, BROADCAST:, PRIVATE: and so on
-        Pattern pattern = Pattern.compile(regex);
-        Matcher m = pattern.matcher(request);
-        String command = "";
-        int end = 0;
-        if (m.find()) {
-            end = m.end();
-            command = request.substring(m.start(), end);
-        }
-        String content = request.substring(end);
-        return new CommandAndBody(command, content);
     }
 
 
@@ -122,14 +94,14 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         session.setClient(null);
     }
 
-    private class CommandAndBody {
-        String command;
-        String body;
-
-        CommandAndBody(String command, String body) {
-            this.command = command;
-            this.body = body;
+    public boolean checkForChangeCommandRequest(String input) {
+        Pattern p = Pattern.compile(regexForChangeCommand);
+        Matcher matcher = p.matcher(input);
+        if (matcher.find()) {
+            return true;
         }
+        return false;
     }
+
 
 }

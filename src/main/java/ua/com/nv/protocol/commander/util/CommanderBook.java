@@ -50,8 +50,10 @@ public final class CommanderBook {
 
     }
 
+
+
     @SuppressWarnings("checked")
-    public static CommanderAndStatus getCommander(String request) {
+    private static CommanderAndStatus getCommander(String request) {
         CommanderAndStatus returned = null;
 
         if (!commanders.containsKey(request)) {
@@ -106,7 +108,7 @@ public final class CommanderBook {
             }
 
         } else {
-            commanderAndStatus.commander=currentCommander;
+            commanderAndStatus.commander = currentCommander;
         }
         return commanderAndStatus;
     }

@@ -11,6 +11,7 @@ public class HelpCommander  extends AbstractCommander {
     @Override
     public void processRequest(String clientRequest) {
        inProcess=true;
+
         for (ChatCommands curCommand : ChatCommands.values()) {
             enveloper.addCommandInfoHeader(curCommand);
         }
