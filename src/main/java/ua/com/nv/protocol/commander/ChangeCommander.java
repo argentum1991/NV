@@ -54,7 +54,7 @@ public class ChangeCommander extends AbstractCommander {
 
         }
         enveloper.addMsgContent(cms.status.getExplanation());
-        logger.info(cms.status.toString());
+        logger.info(cms.status.getExplanation());
         return currentCommander;
 
     }

@@ -22,6 +22,7 @@ public class PrivatecastCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
+        inProcess=true;
         NameAndBody nb = getClientCommandAndContent(clientRequest);
         this.enveloper.setMsg(new SimpleTelnetMsg());
         if (!nb.name.isEmpty()) {
