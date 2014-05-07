@@ -48,6 +48,11 @@ public final class DirectedCommanderGraph {
         diGraph.addEdge("LOGOUT:", "REGISTER:");
         diGraph.addEdge("LOGOUT:", "LOGIN:");
 
+        diGraph.addEdge("BROADCAST:","PRIVATE:");
+        diGraph.addEdge("CONSUMERS:","PRIVATE:");
+        diGraph.addEdge("LOGIN:","PRIVATE:");
+
+
         diGraph.addEdge("REGISTER:", "LOGIN:");
 
         diGraph.addEdge("WELCOME:", "LOGIN:");

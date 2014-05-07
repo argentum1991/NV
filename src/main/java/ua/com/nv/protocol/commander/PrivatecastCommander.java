@@ -9,6 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PrivatecastCommander extends AbstractCommander {
+    //<RECEIVER> BODY_MSG
+    private static String forWhomPattern = "^<-.+?>";//start with <WHO>
+
 
     String toWhom;
 
@@ -24,11 +27,13 @@ public class PrivatecastCommander extends AbstractCommander {
         if (!nb.name.isEmpty()) {
             this.toWhom = nb.name;
         }
-
         String msg = nb.body;
-        this.enveloper.addMsgContent(msg);
-        ClientSession session = director.getSession();
-        putStampOn(session);
+        if (!msg.isEmpty()){
+            this.enveloper.addMsgContent(msg);
+            ClientSession session = director.getSession();
+            putStampOn(session);
+        }
+
 
     }
 
@@ -40,17 +45,15 @@ public class PrivatecastCommander extends AbstractCommander {
 
 
     private NameAndBody getClientCommandAndContent(String request) {
-        String regex = "-[A-Z]+-";//LOGOUT:, BROADCAST:, PRIVATE: and so on
-        Pattern pattern = Pattern.compile(regex);
-        Matcher m = pattern.matcher(request);
-        String command = "";
-        int end = 0;
-        if (m.find()) {
-            end = m.end();
-            command = request.substring(m.start(), end);
+        Pattern pattern = Pattern.compile(forWhomPattern);
+        Matcher matcher = pattern.matcher(request);
+        String receiver = "";
+        String body = request;
+        if (matcher.find()) {
+            receiver = request.substring(1, matcher.end() - 1);
+            body = request.substring(matcher.end() + 1, request.length());
         }
-        String content = request.substring(end);
-        return new NameAndBody(command, content);
+         return new NameAndBody(receiver, body);
     }
 
     private class NameAndBody {

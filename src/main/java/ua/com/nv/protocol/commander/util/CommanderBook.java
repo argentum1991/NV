@@ -45,8 +45,6 @@ public final class CommanderBook {
         commanderStatus.put(PrivatecastCommander.class, 1);
         commanderStatus.put(RegisterCommander.class, 0);
 
-
-
     }
 
 
