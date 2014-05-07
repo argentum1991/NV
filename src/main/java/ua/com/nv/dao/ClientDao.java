@@ -11,9 +11,15 @@ public final class ClientDao {
 
     public static List<Client> getClientsId() {
         List<Client> clients = new ArrayList<>();
-        Client testClient = new Client("robert",1);
-        testClient.setPass("nayman");
-        clients.add(testClient);
+        Client testClient1 = new Client("robert",1);
+        testClient1.setPass("nayman");
+
+        Client testClient2 = new Client("erik",1);
+        testClient1.setPass("berman");
+
+
+        clients.add(testClient1);
+        clients.add(testClient2);
         return clients;
     }
 
