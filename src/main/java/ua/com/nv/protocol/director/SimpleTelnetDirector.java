@@ -26,7 +26,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     ClientSession session = new ClientSession();
     private static String regexForChangeCommand = "<ch:>";
     private AbstractCommander currentCommander = new WelcomeCommander();
-    private ChangeCommander changeCommander = new ChangeCommander();
+
     private Sender sender;
     protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
 
@@ -37,6 +37,10 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     @Override
     public void processRequest(String clientRequest) {
         enveloper.setMsg(new SimpleTelnetMsg());
+        if (checkForChangeCommandRequest(clientRequest)) {
+            currentCommander = new ChangeCommander();
+            currentCommander.setSessionDirector(this);
+        }
 
         currentCommander.processRequest(clientRequest);
         String response = currentCommander.getResponseMsg();
@@ -49,8 +53,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
             } else {
                 currentCommander = new BroadcastCommander();
                 currentCommander.setSessionDirector(this);
-
-            }
+             }
         }
     }
 
@@ -94,7 +97,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         session.setClient(null);
     }
 
-    public boolean checkForChangeCommandRequest(String input) {
+    private boolean checkForChangeCommandRequest(String input) {
         Pattern p = Pattern.compile(regexForChangeCommand);
         Matcher matcher = p.matcher(input);
         if (matcher.find()) {
