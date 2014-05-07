@@ -15,7 +15,7 @@ public final class ClientDao {
         testClient1.setPass("nayman");
 
         Client testClient2 = new Client("erik",1);
-        testClient1.setPass("berman");
+        testClient2.setPass("berman");
 
 
         clients.add(testClient1);
