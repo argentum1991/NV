@@ -51,8 +51,8 @@ public class PrivatecastCommander extends AbstractCommander {
         String receiver = "";
         String body = request;
         if (matcher.find()) {
-            receiver = request.substring(1, matcher.end() - 1);
-            body = request.substring(matcher.end() + 1, request.length());
+            receiver = request.substring(2, matcher.end() - 1);
+            body = request.substring(matcher.end() , request.length());
         }
          return new NameAndBody(receiver, body);
     }

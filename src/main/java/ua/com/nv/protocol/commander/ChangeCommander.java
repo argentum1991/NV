@@ -1,7 +1,6 @@
 package ua.com.nv.protocol.commander;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.commander.util.CommandStatus;
