@@ -1,6 +1,8 @@
 package ua.com.nv.protocol.director;
 
 
+import ua.com.nv.server.DELIVERY_MODE;
+
 import java.io.Reader;
 
 public interface MsgDirector {
@@ -10,6 +12,6 @@ public interface MsgDirector {
 
     public void processRequest(String request) throws UnsupportedOperationException;
 
-    public String getReceiverId();
+    public DELIVERY_MODE getMode();
 
 }

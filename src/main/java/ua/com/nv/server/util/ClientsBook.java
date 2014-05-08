@@ -1,6 +1,7 @@
 package ua.com.nv.server.util;
 
 import ua.com.nv.server.Client;
+import ua.com.nv.server.DELIVERY_MODE;
 import ua.com.nv.server.Sender;
 
 import java.util.Collection;
@@ -17,13 +18,13 @@ public final class ClientsBook {
 
     }
 
-    public static void transmitMsg(String userName, String msg) {
-        if (userName.equals("BROADCAST")) {
+    public static void transmitMsg(DELIVERY_MODE mode, String msg) {
+        if (mode==DELIVERY_MODE.BROADCAST) {
             for (Client receiver : clients.values()) {
                 deliverMsg(receiver, msg);
             }
         } else {
-            Client receiver = clients.get(userName);
+            Client receiver = clients.get(mode.getReceiver());
             deliverMsg(receiver, msg);
         }
     }

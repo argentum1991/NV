@@ -43,29 +43,31 @@ public class ConnectionController implements Callable<Boolean>, Sender<String> {
         String nextRequest = "";
         director.processRequest("");
         String hello = director.getResponseMsg();
-        sendMsg(hello);
+        sendMsg(DELIVERY_MODE.CALLBACK, hello);
         while ((nextRequest = reader.readLine()) != null) {
             director.processRequest(nextRequest);
 
             String msgResponse = director.getResponseMsg();
-            log.info("MsgResponse:" + msgResponse);
-            if (!msgResponse.isEmpty()) {
-                if (!director.getSession().isAuthenticated()) {
-                    sendMsg(msgResponse);
-                } else {
-                    String clientId = director.getReceiverId();
-                    if (clientId != null) {
-                        log.info("ReceiverId:" + clientId);
-                        ClientsBook.transmitMsg(clientId, msgResponse);
-                    } else {
-                        sendMsg(msgResponse);
-                    }
-                }
+            DELIVERY_MODE mode = director.getMode();
 
+            if (!msgResponse.isEmpty()) {
+                sendMsg(mode, msgResponse);
             }
         }
+
         connections.remove(this);
         return false;
+    }
+
+    private void sendMsg(DELIVERY_MODE mode, String msg) {
+
+        switch (mode) {
+            case CALLBACK:
+                sendMsg(msg);
+                break;
+            default:
+                ClientsBook.transmitMsg(mode, msg);
+        }
     }
 
     @Override

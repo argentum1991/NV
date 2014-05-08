@@ -30,7 +30,6 @@ public class LoginCommander extends AbstractCommander {
     public void processRequest(String clientRequest) {
 
         if (!inProcess) {
-
             inProcess = true;
             stageIterator = stages.iterator();
             String nextStage = getNextStageCaption();

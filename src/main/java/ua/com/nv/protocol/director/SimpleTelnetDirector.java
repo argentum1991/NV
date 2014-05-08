@@ -9,6 +9,7 @@ import ua.com.nv.protocol.commander.util.CommandStatus;
 import ua.com.nv.protocol.commander.util.CommanderBook;
 import ua.com.nv.server.Client;
 import ua.com.nv.server.ClientSession;
+import ua.com.nv.server.DELIVERY_MODE;
 import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
 
@@ -51,9 +52,9 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
         enveloper.addMsgContent(response);
         if (!currentCommander.inProcess()) {
-            if (currentCommander.getClass() == WelcomeCommander.class ) {
-            tryChangeCommand=true;
-            changeCommander.processRequest(clientRequest,currentCommander);
+            if (currentCommander.getClass() == WelcomeCommander.class) {
+                tryChangeCommand = true;
+                changeCommander.processRequest(clientRequest, currentCommander);
             } else if (session.getStatus() == 0) {
                 currentCommander = new WelcomeCommander();
                 currentCommander.processRequest("");
@@ -76,8 +77,8 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     }
 
     @Override
-    public String getReceiverId() {
-        return currentCommander.getReceiverId();
+    public DELIVERY_MODE getMode() {
+        return currentCommander.getMode();
     }
 
 
@@ -105,7 +106,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     public void sessionInvalidate() {
         ClientsBook.unbindSenderFromClient(session.client.getUserName());
         session.setClient(null);
-        this.currentCommander=new WelcomeCommander();
+        this.currentCommander = new WelcomeCommander();
         currentCommander.processRequest("");
     }
 

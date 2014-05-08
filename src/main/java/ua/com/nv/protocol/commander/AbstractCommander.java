@@ -6,6 +6,7 @@ import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.director.SessionDirector;
 import ua.com.nv.server.ClientSession;
+import ua.com.nv.server.DELIVERY_MODE;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,12 +61,13 @@ public abstract class AbstractCommander implements Commander {
     public boolean isBreakable() {
         return true;
     }
-
-
     @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public DELIVERY_MODE getMode(){
+    return DELIVERY_MODE.CALLBACK;
     }
+
+
+
 
 
 }

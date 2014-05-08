@@ -4,6 +4,7 @@ package ua.com.nv.protocol.commander;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.server.ClientSession;
+import ua.com.nv.server.DELIVERY_MODE;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,8 +41,10 @@ public class PrivatecastCommander extends AbstractCommander {
 
 
     @Override
-    public String getReceiverId() {
-        return toWhom;  //To change body of implemented methods use File | Settings | File Templates.
+    public DELIVERY_MODE getMode(){
+        DELIVERY_MODE mode=DELIVERY_MODE.PRIVATECAST;
+        mode.setReceiver(toWhom);
+        return  mode;
     }
 
 

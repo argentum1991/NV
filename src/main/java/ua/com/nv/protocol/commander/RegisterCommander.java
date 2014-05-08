@@ -103,10 +103,7 @@ public class RegisterCommander  extends AbstractCommander{
 
 
 
-    @Override
-    public String getReceiverId() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
     @Override
     public boolean isBreakable(){
         return false;
