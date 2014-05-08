@@ -20,9 +20,8 @@ public abstract class AbstractCommander implements Commander {
 
     @Override
     public String getResponseMsg() {
-        String response = enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
-        enveloper.setMsg(new SimpleTelnetMsg());
-        return response;
+        return enveloper.getResponseMsg();  //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     public void processRequest(String clientRequest, String preparedMsg) {
@@ -31,11 +30,11 @@ public abstract class AbstractCommander implements Commander {
     }
 
     protected void putStampOn(ClientSession session) {
-        if (session.isAuthenticated()){
+        if (session.isAuthenticated()) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss");
             String date = sdf.format(new Date());
             System.out.println(date);
-            String stamp = String.format("AUTOR:%s  TIME:%s \r\n", session.client.getUserName(),date);
+            String stamp = String.format("AUTOR:%s  TIME:%s \r\n", session.client.getUserName(), date);
             enveloper.addMsgHeader(stamp);
         }
 
@@ -61,13 +60,15 @@ public abstract class AbstractCommander implements Commander {
     public boolean isBreakable() {
         return true;
     }
+
     @Override
-    public DELIVERY_MODE getMode(){
-    return DELIVERY_MODE.CALLBACK;
+    public DELIVERY_MODE getMode() {
+        return DELIVERY_MODE.CALLBACK;
     }
-
-
-
+    @Override
+    public void reInitMsg(){
+        enveloper.setMsg(new SimpleTelnetMsg());
+    }
 
 
 }

@@ -23,7 +23,7 @@ public final class ClientsBook {
             for (Client receiver : clients.values()) {
                 deliverMsg(receiver, msg);
             }
-        } else {
+        } else  {
             Client receiver = clients.get(mode.getReceiver());
             deliverMsg(receiver, msg);
         }

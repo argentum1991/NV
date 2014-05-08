@@ -12,6 +12,7 @@ public interface MsgDirector {
 
     public void processRequest(String request) throws UnsupportedOperationException;
 
+    public void reInitMsg();
     public DELIVERY_MODE getMode();
 
 }

@@ -19,22 +19,18 @@ public class ConnectionController implements Callable<Boolean>, Sender<String> {
     private Socket clientSocket;
     private SimpleTelnetDirector director;
     private PrintWriter writer;
-    private int socketLocalPort;
+
     private Set<Callable> connections;
 
     public ConnectionController(Socket clientSocket, Set<Callable> connections) throws IOException {
         this.clientSocket = clientSocket;
-        socketLocalPort = clientSocket.getLocalPort();
+
         director = new SimpleTelnetDirector(this);
         writer = new PrintWriter(clientSocket.getOutputStream());
         this.connections = connections;
     }
 
-    @Override
-    public void sendMsg(String msg) {
-        writer.print(msg);
-        writer.flush();
-    }
+
 
     @Override
     public Boolean call() throws Exception {
@@ -69,22 +65,12 @@ public class ConnectionController implements Callable<Boolean>, Sender<String> {
                 ClientsBook.transmitMsg(mode, msg);
         }
     }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ConnectionController that = (ConnectionController) o;
-
-        if (socketLocalPort != that.socketLocalPort) return false;
-
-        return true;
+    public void sendMsg(String msg) {
+        writer.print(msg);
+        writer.flush();
     }
 
-    @Override
-    public int hashCode() {
-        return socketLocalPort;
-    }
+
 
 }

@@ -13,6 +13,7 @@ public class BroadcastCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
+
         inProcess = true;
         if (!clientRequest.isEmpty()) {
             putStampOn(director.getSession());

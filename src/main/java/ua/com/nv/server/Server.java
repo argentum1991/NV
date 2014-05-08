@@ -1,5 +1,6 @@
 package ua.com.nv.server;
 
+import org.apache.log4j.Logger;
 import ua.com.nv.dao.ClientDao;
 import ua.com.nv.server.util.ClientsBook;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 
 
 public class Server {
+    private final Logger log = Logger.getLogger(Server.class);
     Set<Callable> connections = new HashSet<Callable>();
     ExecutorService pool = Executors.newCachedThreadPool();
 
@@ -37,6 +39,7 @@ public class Server {
             while (true) {
                 Socket nextClient = socket.accept();
                 addNewClient(nextClient);
+                log.info("new client added:"+socket.getLocalSocketAddress()+", total:"+connections.size());
             }
         } catch (IOException ix) {
             ix.printStackTrace();

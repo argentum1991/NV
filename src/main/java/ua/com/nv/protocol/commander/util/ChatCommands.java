@@ -7,7 +7,7 @@ public enum ChatCommands {
      */
 
 
-    CONSUMERS("List all online consumers\r\n",(char) 51),
+    CONSUMERS("List all  consumers\r\n",(char) 51),
     PRIVATE("Your msg will be send only for selected consumer\r\n" +
             " Send your msg in format: <-RECEIVER> BODY_MSG\r\n" +
             " If no receiver was indicated, then your msg will be delivered to every one\r\n",(char) 52),

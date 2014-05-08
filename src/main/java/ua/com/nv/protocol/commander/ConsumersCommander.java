@@ -14,7 +14,7 @@ public class ConsumersCommander  extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-    inProcess=true;
+
         Collection<Client> clients = ClientsBook.getAllClients();
         enveloper.addCommandInfoHeader(this.concreteCommand);
         for (Client curClient : clients) {

@@ -71,7 +71,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public String getResponseMsg() {
-        log.info("RESPONSE MSG IN DIRECTOR:" + currentCommander.getResponseMsg());
+        log.info("Current commander:"+currentCommander+ "--RESPONSE MSG IN DIRECTOR:" + currentCommander.getResponseMsg());
         return enveloper.getResponseMsg();
 
     }
