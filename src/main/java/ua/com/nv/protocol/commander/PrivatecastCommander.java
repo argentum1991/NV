@@ -14,7 +14,7 @@ public class PrivatecastCommander extends AbstractCommander {
     private static String forWhomPattern = "^<-.+?>";//start with <WHO>
 
 
-    String toWhom;
+    String toWhom = "";
 
     public PrivatecastCommander() {
         this.concreteCommand = ChatCommands.PRIVATE;
@@ -23,28 +23,28 @@ public class PrivatecastCommander extends AbstractCommander {
 
     @Override
     public void processRequest(String clientRequest) {
-        inProcess=true;
+        inProcess = true;
         NameAndBody nb = getClientCommandAndContent(clientRequest);
         this.enveloper.setMsg(new SimpleTelnetMsg());
         if (!nb.name.isEmpty()) {
             this.toWhom = nb.name;
         }
+
         String msg = nb.body;
-        if (!msg.isEmpty()){
+        if (!msg.isEmpty()) {
             this.enveloper.addMsgContent(msg);
             ClientSession session = director.getSession();
             putStampOn(session);
         }
 
-
     }
 
 
     @Override
-    public DELIVERY_MODE getMode(){
-        DELIVERY_MODE mode=DELIVERY_MODE.PRIVATECAST;
+    public DELIVERY_MODE getMode() {
+        mode = DELIVERY_MODE.PRIVATECAST;
         mode.setReceiver(toWhom);
-        return  mode;
+        return mode;
     }
 
 
@@ -55,9 +55,9 @@ public class PrivatecastCommander extends AbstractCommander {
         String body = request;
         if (matcher.find()) {
             receiver = request.substring(2, matcher.end() - 1);
-            body = request.substring(matcher.end() , request.length());
+            body = request.substring(matcher.end(), request.length());
         }
-         return new NameAndBody(receiver, body);
+        return new NameAndBody(receiver, body);
     }
 
     private class NameAndBody {

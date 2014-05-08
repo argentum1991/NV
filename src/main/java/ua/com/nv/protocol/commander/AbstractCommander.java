@@ -17,6 +17,7 @@ public abstract class AbstractCommander implements Commander {
     protected ChatCommands concreteCommand;
     protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
     SessionDirector director;
+    DELIVERY_MODE mode=DELIVERY_MODE.CALLBACK;
 
     @Override
     public String getResponseMsg() {
@@ -63,7 +64,7 @@ public abstract class AbstractCommander implements Commander {
 
     @Override
     public DELIVERY_MODE getMode() {
-        return DELIVERY_MODE.CALLBACK;
+        return mode;
     }
     @Override
     public void reInitMsg(){

@@ -27,6 +27,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
     private ChangeCommander changeCommander = new ChangeCommander();
     private boolean tryChangeCommand = false;
     private Sender sender;
+    private DELIVERY_MODE mode;
     protected SimpleTelnetEnveloper enveloper = new SimpleTelnetEnveloper();
 
     public SimpleTelnetDirector(Sender sender) {
@@ -37,6 +38,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void processRequest(String clientRequest) {
+        log.info("Current commander:"+currentCommander+ "--ClientRequest IN DIRECTOR:" + enveloper.getResponseMsg());
         enveloper.setMsg(new SimpleTelnetMsg());
         String response = "";
 
@@ -44,19 +46,24 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
             currentCommander = changeCommander.processRequest(clientRequest, currentCommander);
             enveloper.addMsgContent(changeCommander.getResponseMsg());
             tryChangeCommand = changeCommander.inProcess();
+            mode=changeCommander.getMode();
             return;
         } else {
+            currentCommander.reInitMsg();
             currentCommander.processRequest(clientRequest);
             response = currentCommander.getResponseMsg();
         }
-
         enveloper.addMsgContent(response);
+        mode=currentCommander.getMode();
+
         if (!currentCommander.inProcess()) {
             if (currentCommander.getClass() == WelcomeCommander.class) {
                 tryChangeCommand = true;
                 changeCommander.processRequest(clientRequest, currentCommander);
+                mode=changeCommander.getMode();
             } else if (session.getStatus() == 0) {
                 currentCommander = new WelcomeCommander();
+                currentCommander.reInitMsg();
                 currentCommander.processRequest("");
                 enveloper.addMsgContent(currentCommander.getResponseMsg());
             } else {
@@ -64,21 +71,24 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
                 currentCommander.setSessionDirector(this);
             }
         }
+ }
 
-
+    @Override
+    public void reInitMsg() {
+        enveloper.setMsg(new SimpleTelnetMsg());
     }
 
 
     @Override
     public String getResponseMsg() {
-        log.info("Current commander:"+currentCommander+ "--RESPONSE MSG IN DIRECTOR:" + currentCommander.getResponseMsg());
+        log.info("Current commander:"+currentCommander+ "--RESPONSE MSG IN DIRECTOR:" + enveloper.getResponseMsg());
         return enveloper.getResponseMsg();
 
     }
 
     @Override
     public DELIVERY_MODE getMode() {
-        return currentCommander.getMode();
+        return mode;
     }
 
 

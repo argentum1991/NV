@@ -14,8 +14,4 @@ public class LogoutCommander  extends AbstractCommander {
         enveloper.addMsgContent("You out\r\n");
     }
 
-
-
-
-
 }

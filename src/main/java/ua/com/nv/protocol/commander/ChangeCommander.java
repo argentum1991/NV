@@ -7,11 +7,10 @@ import ua.com.nv.protocol.commander.util.CommandStatus;
 import ua.com.nv.protocol.commander.util.CommanderBook;
 
 
-
 public class ChangeCommander extends AbstractCommander {
-    private static Logger logger=Logger.getLogger(ChangeCommander.class);
+    private static Logger logger = Logger.getLogger(ChangeCommander.class);
     static String commandPattern = "^[A-Z]+:";//LOGOUT:, BROADCAST:, PRIVATE: and so on
-    static String header1 = "Attention, check command:\r\n";
+    static String header1 = "ATTENTION!\r\n, check command:\r\n";
 
 
     public AbstractCommander processRequest(String request, AbstractCommander currentCommander) {
@@ -19,13 +18,11 @@ public class ChangeCommander extends AbstractCommander {
         if (!inProcess()) {
             inProcess = true;
             enveloper.addMsgHeader(header1);
-            for (ChatCommands curCommand : ChatCommands.values()) {
-                enveloper.addCommandInfoHeader(curCommand);
-            }
+            addCommandExplanation();
         } else if (request.matches(commandPattern)) {
             return getCommander(currentCommander, request);
-        }else {
-            inProcess=true;
+        } else {
+            inProcess = true;
             enveloper.addMsgContent(CommandStatus.WRONG.getExplanation());
         }
 
@@ -39,10 +36,16 @@ public class ChangeCommander extends AbstractCommander {
         return false;
     }
 
+    private void addCommandExplanation() {
+        for (ChatCommands curCommand : ChatCommands.values()) {
+            enveloper.addCommandInfoHeader(curCommand);
+        }
+    }
+
     private AbstractCommander getCommander(AbstractCommander currentCommander, String command) {
 
         CommanderBook.CommanderAndStatus cms = CommanderBook.
-                getCurrentCommander(currentCommander, command, this.director.getSession().getStatus());
+                getCurrentCommander(currentCommander, command, director.getSession().getStatus());
         AbstractCommander nextCommander = cms.commander;
         if (nextCommander != null) {
             inProcess = false;
@@ -50,8 +53,8 @@ public class ChangeCommander extends AbstractCommander {
                 currentCommander = nextCommander;
                 currentCommander.setSessionDirector(director);
             }
-
         }
+
         enveloper.addMsgContent(cms.status.getExplanation());
         logger.info(cms.status.getExplanation());
         return currentCommander;

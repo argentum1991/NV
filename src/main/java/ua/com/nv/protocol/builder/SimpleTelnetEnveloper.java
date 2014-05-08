@@ -5,7 +5,7 @@ import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.commander.util.ServiceCommands;
 
-public class SimpleTelnetEnveloper implements MsgEnveloper {
+public class SimpleTelnetEnveloper implements MsgEnveloper<SimpleTelnetMsg> {
 
 
     private SimpleTelnetMsg msg;
@@ -45,14 +45,19 @@ public class SimpleTelnetEnveloper implements MsgEnveloper {
         }
 
     }
-    public void clearLastLine(){
-    msg.appendToHeader(ServiceCommands.IAC.getCode());
-     msg.appendToHeader(ServiceCommands.EL.getCode());
-    }
+
+
 
     public void addResponseCommandHeader(String response) {
         msg.appendToHeader(response);
     }
+
+    @Override
+    public void addUnknownReceiverHeader(String receiver) {
+        msg.appendToHeader(String.format("Sorry, but msg wasn't delivered because receiver is absent in out data base"));
+    }
+
+
     @Override
     public void addMsgContent(String content) {
         msg.appendToContent(content);

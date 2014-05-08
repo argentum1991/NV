@@ -10,7 +10,7 @@ public enum ChatCommands {
     CONSUMERS("List all  consumers\r\n",(char) 51),
     PRIVATE("Your msg will be send only for selected consumer\r\n" +
             " Send your msg in format: <-RECEIVER> BODY_MSG\r\n" +
-            " If no receiver was indicated, then your msg will be delivered to every one\r\n",(char) 52),
+            " If no receiver was indicated, then your msg will be delivered to yourself or last success receiver\r\n",(char) 52),
     BROADCAST("Your msg will be broadcasted to everyone\r\n",(char) 53),
     LOGOUT("Logout from current profile \r\n",(char) 54),
     LOGIN("Enter your credentials and principals and enter to chat \r\n",(char) 55),

@@ -18,16 +18,31 @@ public final class ClientsBook {
 
     }
 
-    public static void transmitMsg(DELIVERY_MODE mode, String msg) {
-        if (mode==DELIVERY_MODE.BROADCAST) {
-            for (Client receiver : clients.values()) {
-                deliverMsg(receiver, msg);
-            }
-        } else  {
-            Client receiver = clients.get(mode.getReceiver());
+    public static boolean transmitMsg(DELIVERY_MODE mode, String msg) {
+        if (mode == DELIVERY_MODE.BROADCAST) {
+            broadcasting(msg);
+        } else {
+            String whom = mode.getReceiver();
+          return   privatecasting(msg, whom);
+        }
+        return true;
+    }
+
+    private static void broadcasting(String msg) {
+        for (Client receiver : clients.values()) {
             deliverMsg(receiver, msg);
         }
     }
+
+    private static boolean privatecasting(String msg, String whom) {
+        Client receiver = clients.get(whom);
+        if (receiver == null) {
+            return false;
+        }
+        deliverMsg(receiver, msg);
+        return true;
+    }
+
 
     private static void deliverMsg(Client receiver, String msg) {
         if (receiver.inOnlineMode()) {
@@ -35,7 +50,6 @@ public final class ClientsBook {
         } else {
             undeliveredMsg.get(receiver.getUserName()).add(msg);
         }
-
     }
 
     public static void addClients(List<Client> clientList) {
@@ -75,7 +89,7 @@ public final class ClientsBook {
             if (curClient.getPass().equals(pass)) {
                 curClient.setOnlineMode(sender);
                 Collection<String> set = getUndeliveredMsg(curClient.getUserName());
-                deliverMsgToAppearedClient(curClient,set);
+                deliverMsgToAppearedClient(curClient, set);
                 return curClient;
             }
         }
