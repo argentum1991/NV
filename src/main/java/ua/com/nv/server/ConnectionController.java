@@ -2,13 +2,10 @@ package ua.com.nv.server;
 
 import org.apache.log4j.Logger;
 import ua.com.nv.protocol.builder.MsgEnveloper;
-import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.director.MsgDirector;
 import ua.com.nv.protocol.director.SimpleTelnetDirector;
 import ua.com.nv.server.util.ClientsBook;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -29,7 +26,7 @@ public class ConnectionController<T extends MsgEnveloper> implements Callable<Bo
     public ConnectionController(Socket clientSocket, Set<Callable> connections, Class<T> enveloperClass) throws Exception {
         this.clientSocket = clientSocket;
         enveloper = enveloperClass.newInstance();
-
+        director=new SimpleTelnetDirector(this);
         writer = new PrintWriter(clientSocket.getOutputStream());
         this.connections = connections;
     }
@@ -67,8 +64,8 @@ public class ConnectionController<T extends MsgEnveloper> implements Callable<Bo
             default:
                 if (!ClientsBook.transmitMsg(mode, msg)) {
                     enveloper.addUnknownReceiverHeader(mode.getReceiver());
+                    sendMsg(enveloper.getResponseMsg());
                 }
-
 
         }
     }

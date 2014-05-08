@@ -2,6 +2,7 @@ package ua.com.nv.server;
 
 import org.apache.log4j.Logger;
 import ua.com.nv.dao.ClientDao;
+import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.server.util.ClientsBook;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class Server {
     private void addNewClient(Socket client) {
         try {
 
-            ConnectionController controller = new ConnectionController(client, connections);
+            ConnectionController controller = new ConnectionController(client, connections, SimpleTelnetEnveloper.class);
             connections.add(controller);
             pool.submit(controller);
         } catch (Exception ex) {

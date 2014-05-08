@@ -47,14 +47,13 @@ public class SimpleTelnetEnveloper implements MsgEnveloper<SimpleTelnetMsg> {
     }
 
 
-
     public void addResponseCommandHeader(String response) {
         msg.appendToHeader(response);
     }
 
     @Override
     public void addUnknownReceiverHeader(String receiver) {
-        msg.appendToHeader(String.format("Sorry, but msg wasn't delivered because receiver is absent in out data base"));
+        msg.appendToHeader(String.format("Sorry, but msg wasn't delivered because receiver <%s> is absent in out data base\r\n",receiver));
     }
 
 
