@@ -114,6 +114,11 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
         return ClientsBook.addClient(user, pass);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void getUndeliveredMsgFromStock(String user) {
+         ClientsBook.getUndeliveredMsgFromStock(user);
+    }
+
 
     @Override
     public void sessionInvalidate() {

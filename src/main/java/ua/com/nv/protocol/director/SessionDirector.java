@@ -8,7 +8,7 @@ public interface SessionDirector {
 
     public void setDataForClientSession(String user, String pass);
     public boolean setDataForClientRegistration(String user, String pass);
-
+    public  void getUndeliveredMsgFromStock(String user);
     public void sessionInvalidate();
 
 }

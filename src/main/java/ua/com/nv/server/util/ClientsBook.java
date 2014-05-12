@@ -15,9 +15,6 @@ public final class ClientsBook {
     private static ConcurrentHashMap<String, Client> clients = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, HashSet<String>> undeliveredMsg = new ConcurrentHashMap<>();
 
-    private ClientsBook() {
-
-    }
 
     public static boolean transmitMsg(DELIVERY_MODE mode, String msg) {
         if (mode == DELIVERY_MODE.BROADCAST) {
@@ -105,16 +102,17 @@ public final class ClientsBook {
     }
 
 
-    public static void getUndeliveredMsgFromStock(Client curClient) {
-        Collection<String> set = undeliveredMsg.get(curClient.getUserName());
-        for (String msg : set) {
-            if (curClient.inOnlineMode()) {
-                curClient.sendMsg(msg);
+    public static void getUndeliveredMsgFromStock(String userName) {
+        if (clients.containsKey(userName)) {
+            Client curClient = clients.get(userName);
+            Collection<String> set = undeliveredMsg.get(userName);
+            for (String msg : set) {
                 set.remove(msg);
+                curClient.sendMsg(msg);
             }
-         }
-
+        }
     }
 
-
 }
+
+

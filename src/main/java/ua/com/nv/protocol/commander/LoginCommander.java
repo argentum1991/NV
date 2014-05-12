@@ -54,6 +54,8 @@ public class LoginCommander extends AbstractCommander {
             if (session.isAuthenticated()) {
 
                 enveloper.addWelcomeUserHeader(login);
+                director.getUndeliveredMsgFromStock(login);
+
 
             } else {
                 enveloper.addUnknownUserHeader();
