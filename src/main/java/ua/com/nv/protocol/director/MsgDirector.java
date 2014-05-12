@@ -1,9 +1,8 @@
 package ua.com.nv.protocol.director;
 
 
-import ua.com.nv.server.DELIVERY_MODE;
+import ua.com.nv.protocol.commander.DELIVERY_MODE;
 
-import java.io.Reader;
 
 public interface MsgDirector {
 

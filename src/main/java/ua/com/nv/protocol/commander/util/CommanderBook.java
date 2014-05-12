@@ -95,16 +95,16 @@ public final class CommanderBook {
             boolean access = checkForClientAccessNextCommand(nextCommander, status);
             if (!logically) {
                 commanderAndStatus.status = CommandStatus.LOGICALLY_IMPOSSIBLE;
-                commanderAndStatus.commander = currentCommander;
+                commanderAndStatus.commander = null;
                 return commanderAndStatus;
             }
             if (!access) {
                 commanderAndStatus.status = CommandStatus.FORBIDDEN_FOR_USER_STATUS;
-                commanderAndStatus.commander = currentCommander;
+                commanderAndStatus.commander = null;
              }
 
         } else {
-            commanderAndStatus.commander = currentCommander;
+            commanderAndStatus.commander = null;
 
         }
         return commanderAndStatus;

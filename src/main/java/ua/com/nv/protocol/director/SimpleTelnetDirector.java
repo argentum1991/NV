@@ -9,7 +9,7 @@ import ua.com.nv.protocol.commander.util.CommandStatus;
 import ua.com.nv.protocol.commander.util.CommanderBook;
 import ua.com.nv.server.Client;
 import ua.com.nv.server.ClientSession;
-import ua.com.nv.server.DELIVERY_MODE;
+
 import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
 
@@ -62,11 +62,14 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
                 changeCommander.processRequest(clientRequest, currentCommander);
                 mode=changeCommander.getMode();
             } else if (session.getStatus() == 0) {
+                tryChangeCommand = true;
                 currentCommander = new WelcomeCommander();
                 currentCommander.reInitMsg();
                 currentCommander.processRequest("");
+                changeCommander.processRequest("",currentCommander); //shift to state without explanation info
                 enveloper.addMsgContent(currentCommander.getResponseMsg());
             } else {
+                tryChangeCommand=false;
                 currentCommander = new BroadcastCommander();
                 currentCommander.setSessionDirector(this);
             }

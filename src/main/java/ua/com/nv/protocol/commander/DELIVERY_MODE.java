@@ -1,4 +1,4 @@
-package ua.com.nv.server;
+package ua.com.nv.protocol.commander;
 
 
 public enum DELIVERY_MODE {
@@ -7,15 +7,16 @@ public enum DELIVERY_MODE {
     CALLBACK("");
 
     DELIVERY_MODE(String receiver) {
-   this.receiver=receiver;
+        this.receiver = receiver;
     }
 
- private    String receiver;
+    private String receiver;
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
-    public String getReceiver(){
+
+    public String getReceiver() {
         return receiver;
     }
 

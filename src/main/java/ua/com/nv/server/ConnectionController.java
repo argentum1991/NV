@@ -2,6 +2,7 @@ package ua.com.nv.server;
 
 import org.apache.log4j.Logger;
 import ua.com.nv.protocol.builder.MsgEnveloper;
+import ua.com.nv.protocol.commander.DELIVERY_MODE;
 import ua.com.nv.protocol.director.MsgDirector;
 import ua.com.nv.protocol.director.SimpleTelnetDirector;
 import ua.com.nv.server.util.ClientsBook;

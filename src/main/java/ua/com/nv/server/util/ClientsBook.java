@@ -1,7 +1,8 @@
 package ua.com.nv.server.util;
 
+import ua.com.nv.protocol.commander.DELIVERY_MODE;
 import ua.com.nv.server.Client;
-import ua.com.nv.server.DELIVERY_MODE;
+
 import ua.com.nv.server.Sender;
 
 import java.util.Collection;

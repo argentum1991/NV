@@ -4,7 +4,7 @@ package ua.com.nv.protocol.commander;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.server.ClientSession;
-import ua.com.nv.server.DELIVERY_MODE;
+
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

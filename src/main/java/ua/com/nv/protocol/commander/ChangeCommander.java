@@ -18,10 +18,15 @@ public class ChangeCommander extends AbstractCommander {
         if (!inProcess()) {
             inProcess = true;
             enveloper.addMsgHeader(header1);
+            logger.info(request);
             addCommandExplanation();
         } else if (request.matches(commandPattern)) {
+
             return getCommander(currentCommander, request);
+
+
         } else {
+
             inProcess = true;
             enveloper.addMsgContent(CommandStatus.WRONG.getExplanation());
         }
@@ -47,6 +52,7 @@ public class ChangeCommander extends AbstractCommander {
         CommanderBook.CommanderAndStatus cms = CommanderBook.
                 getCurrentCommander(currentCommander, command, director.getSession().getStatus());
         AbstractCommander nextCommander = cms.commander;
+
         if (nextCommander != null) {
             inProcess = false;
             if (nextCommander.getClass() != currentCommander.getClass()) {
@@ -57,6 +63,7 @@ public class ChangeCommander extends AbstractCommander {
 
         enveloper.addMsgContent(cms.status.getExplanation());
         logger.info(cms.status.getExplanation());
+        logger.info("next command: "+currentCommander);
         return currentCommander;
 
     }

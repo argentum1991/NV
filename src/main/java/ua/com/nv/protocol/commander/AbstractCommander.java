@@ -6,7 +6,7 @@ import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.protocol.director.SessionDirector;
 import ua.com.nv.server.ClientSession;
-import ua.com.nv.server.DELIVERY_MODE;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

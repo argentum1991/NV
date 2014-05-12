@@ -2,7 +2,7 @@ package ua.com.nv.protocol.commander;
 
 
 import ua.com.nv.protocol.commander.util.ChatCommands;
-import ua.com.nv.server.DELIVERY_MODE;
+
 
 public class BroadcastCommander extends AbstractCommander {
 
