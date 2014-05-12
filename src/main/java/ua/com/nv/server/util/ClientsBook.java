@@ -24,7 +24,7 @@ public final class ClientsBook {
             broadcasting(msg);
         } else {
             String whom = mode.getReceiver();
-          return   privatecasting(msg, whom);
+            return privatecasting(msg, whom);
         }
         return true;
     }
@@ -89,31 +89,30 @@ public final class ClientsBook {
             Client curClient = clients.get(userName);
             if (curClient.getPass().equals(pass)) {
                 curClient.setOnlineMode(sender);
-                Collection<String> set = getUndeliveredMsg(curClient.getUserName());
-                deliverMsgToAppearedClient(curClient, set);
+
+
                 return curClient;
             }
         }
         return null;
     }
 
-    public static Collection<String> getUndeliveredMsg(String userName) {
-        return undeliveredMsg.get(userName);
 
-    }
-
-    public static void addUndeliveredMsg(String userName, String msg) {
+    private static void addUndeliveredMsg(String userName, String msg) {
         if (undeliveredMsg.contains(userName)) {
             undeliveredMsg.get(userName).add(msg);
         }
     }
 
-    private static void deliverMsgToAppearedClient(Client client, Collection<String> set) {
-        for (String msg : set) {
-            client.sendMsg(msg);
 
-        }
-        set.clear();
+    public static void getUndeliveredMsgFromStock(Client curClient) {
+        Collection<String> set = undeliveredMsg.get(curClient.getUserName());
+        for (String msg : set) {
+            if (curClient.inOnlineMode()) {
+                curClient.sendMsg(msg);
+                set.remove(msg);
+            }
+         }
 
     }
 
