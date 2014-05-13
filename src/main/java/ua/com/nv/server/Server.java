@@ -28,8 +28,7 @@ public class Server {
     }
 
     public void init() {
-        List<Client> clients = ClientDao.getClientsId();
-        ClientsBook.addClients(clients);
+
 
     }
 

@@ -3,33 +3,26 @@ package ua.com.nv.dao;
 import redis.clients.jedis.Jedis;
 import ua.com.nv.server.Client;
 
-import java.util.HashSet;
+import java.util.Collection;
+
 import java.util.Set;
 
 
 public final class ClientDao {
     private static Jedis jedis;
-
+    private static String msgPattern="-<msg>";
     static {
-        jedis = new Jedis("localhost");
+        jedis = new Jedis("localhost",6379);
     }
 
-    public static Set<Client> getClientsId() {
-        Set<Client> clients = new HashSet<>();
-        Client testClient1 = new Client("robert", 1);
-        testClient1.setPass("nayman");
-
-        Client testClient2 = new Client("erik", 1);
-        testClient2.setPass("berman");
-
-
-        clients.add(testClient1);
-        clients.add(testClient2);
-        return clients;
+    public static Set<String> getClientsName() {
+       return jedis.hkeys("users");
     }
 
-    public static HashSet<String> getAssotiatedMsgWith(String clientId) {
-        return new HashSet<>();
+    public static Collection<String> getAssotiatedMsgWith(String userName) {
+       Collection<String> msgs= jedis.lrange(userName+msgPattern,0,-1);
+       jedis.del(userName);
+        return msgs;
     }
 
     public static void addClient(Client client) {
@@ -40,7 +33,7 @@ public final class ClientDao {
     }
 
     public static void addMsgToClient(String msg, String userName) {
-        jedis.sadd(userName, msg);
+        jedis.sadd(userName+msgPattern, msg);
     }
 
 

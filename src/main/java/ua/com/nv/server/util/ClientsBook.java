@@ -1,5 +1,6 @@
 package ua.com.nv.server.util;
 
+import ua.com.nv.dao.ClientDao;
 import ua.com.nv.protocol.commander.DELIVERY_MODE;
 import ua.com.nv.server.Client;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public final class ClientsBook {
+
     private static ConcurrentHashMap<String, Client> clients = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, HashSet<String>> undeliveredMsg = new ConcurrentHashMap<>();
 
@@ -27,6 +29,7 @@ public final class ClientsBook {
     }
 
     private static void broadcasting(String msg) {
+
         for (Client receiver : clients.values()) {
             deliverMsg(receiver, msg);
         }
