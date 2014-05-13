@@ -35,6 +35,28 @@ public final class ClientDao {
     public static void addMsgToClient(String msg, String userName) {
         jedis.sadd(userName+msgPattern, msg);
     }
+    /*
+    Jedis jedis=new Jedis("localhost",6379);
+        jedis.del("users");
+        jedis.sadd("users","rosbert","jon","erik");
+        Map<String,String> fields=new HashMap<String, String>();
+
+        fields.put("name","rosbert");
+        fields.put("age","12");
+        jedis.hmset("rosbert",fields);
+        fields.clear();
+        fields.put("name","erik");
+        fields.put("age","22");
+        jedis.hmset("erik",fields);
+
+
+        //get
+        Collection<String> users=jedis.smembers("users");
+        for (String user:users){
+          Map<String,String> params=jedis.hgetAll(user);
+          System.out.print(params);
+        }
+     */
 
 
 }
