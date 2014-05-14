@@ -23,16 +23,21 @@ public class ClientDaoTest {
         Client client1 = ClientDao.getClientByUserName("Katsman");
         Assert.assertTrue(client1.equals(client));
         String msg = "the Kid is my most favorite song from their first album";
-        ClientDao.addMsgToClient(msg, "Katsman");
+        ClientDao.addUndeliveredMsgToClient(msg, "Katsman");
         Collection<String> messages = ClientDao.getAssotiatedMsgWith("Katsman");
         Assert.assertTrue(messages.contains(msg));
         Collection<Client> clients = ClientsBook.getAllClients();
         clients.size();
-        ClientsBook.onLineClients.putIfAbsent(client.getUserName(), client);
-        boolean is = ClientsBook.onLineClients.containsKey(client.getUserName());
-        System.out.println(client.getUserName().hashCode());
-        System.out.println(new String("Katsman").hashCode());
-        client.getUserName();
+        ClientDao.saveMsgToBuffer(msg,"Katsman");
+        Collection<String> stored=ClientDao.getStoredMsg("Katsman");
+
+        for(int i=0;i<554;i++){
+            ClientDao.saveMsgToBuffer(msg,"Katsman");
+
+        }
+       Collection<String> storedMsg=ClientDao.getStoredMsg("Katsman");
+        Assert.assertEquals(30,storedMsg.size());
+
 
     }
 

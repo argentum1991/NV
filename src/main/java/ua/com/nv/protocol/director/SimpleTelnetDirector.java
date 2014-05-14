@@ -121,7 +121,9 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void saveMsgInBuffer(String msg) {
-
+        if (session.isAuthenticated()){
+            ClientsBook.saveMsgToBuffer(msg,session.client.getUserName());
+        }
     }
 
 

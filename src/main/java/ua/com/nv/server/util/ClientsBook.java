@@ -99,7 +99,7 @@ public final class ClientsBook {
 
 
     private static void addUndeliveredMsg(String userName, String msg) {
-        ClientDao.addMsgToClient(msg, userName);
+        ClientDao.addUndeliveredMsgToClient(msg,userName);
     }
 
 
@@ -114,8 +114,11 @@ public final class ClientsBook {
              }
         }
     }
-    public static void getStoredMsg(String userName){
-
+    public static Collection<String> getStoredMsg(String userName){
+    return ClientDao.getStoredMsg(userName);
+    }
+    public static void saveMsgToBuffer(String msg,String userName){
+    ClientDao.saveMsgToBuffer(msg,userName);
     }
 
     public static Collection<Client> getAllClients() {

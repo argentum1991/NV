@@ -13,6 +13,7 @@ public final class ClientDao {
     private static String undeliveredMsgAlias = "-<undelivered-msg>";
     private static String storedMsgAlias = "-<stored-msg>";
     private static String usersAlias = "userList";
+    private static int amountOfStoredMsg=30;
 
     static {
         jedis = new Jedis("localhost", 6379);
@@ -56,12 +57,14 @@ public final class ClientDao {
         return jedis.lrange(client, 0, -1);
     }
 
-    public static void addClientMsg(String msg, String userName) {
+    public static void saveMsgToBuffer(String msg, String userName) {
         String client = userName + storedMsgAlias;
-        if (jedis.llen(client) > 30) {
+          while (jedis.llen(client) >amountOfStoredMsg-1) {
             jedis.lpop(client);
         }
+
         jedis.rpush(client, msg);
+
     }
 
 
