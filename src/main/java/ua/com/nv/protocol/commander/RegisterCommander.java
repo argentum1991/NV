@@ -8,10 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
+public class RegisterCommander extends AbstractCommander {
 
-public class RegisterCommander  extends AbstractCommander{
-
-    private static final Logger log= Logger.getLogger(RegisterCommander.class);
+    private static final Logger log = Logger.getLogger(RegisterCommander.class);
 
     private String login;
     private String pass1;
@@ -22,18 +21,15 @@ public class RegisterCommander  extends AbstractCommander{
     public RegisterCommander() {
 
 
-        String[] commands = {"Please, enter your name:\r\n", "Please, enter your password:\r\n","Please, confirm your password:\r\n"};
+        String[] commands = {"Please, enter your name:\r\n", "Please, enter your password:\r\n", "Please, confirm your password:\r\n"};
         stages = Arrays.<String>asList(commands);
         this.concreteCommand = ChatCommands.REGISTER;
 
     }
 
 
-
     @Override
     public void processRequest(String clientRequest) {
-
-
 
         if (!inProcess || stageIterator == null) {
             stageIterator = stages.iterator();
@@ -48,7 +44,6 @@ public class RegisterCommander  extends AbstractCommander{
         log.info("NEXT STAGE:" + nextStage);
 
 
-
         if (login == null) {
             login = clientRequest;
             enveloper.addMsgContent(nextStage);
@@ -59,33 +54,36 @@ public class RegisterCommander  extends AbstractCommander{
         } else if (pass1 == null) {
 
             pass1 = clientRequest;
+            enveloper.addMsgContent(nextStage);
             log.info("LOGIN:" + login);
             log.info("PASS1:" + pass1);
             log.info("PASS2:" + pass2);
+
         } else if (pass2 == null) {
 
-            pass1 = clientRequest;
+            pass2 = clientRequest;
             log.info("LOGIN:" + login);
             log.info("PASS1:" + pass1);
             log.info("PASS2:" + pass2);
 
-            boolean  isValid=    director.setDataForClientRegistration(login,pass2);
+            boolean isValid = director.setDataForClientRegistration(login, pass2);
 
-
+            inProcess=false;
             if (isValid) {
                 enveloper.addSuccesfullyRegisterHeader(login);
-                inProcess = false;
+
             } else {
                 enveloper.addUnknownUserHeader();
                 enveloper.addUnsuccessRegisterHeader(login);
+
+
             }
 
             login = null;
             pass1 = null;
-            pass2=null;
+            pass2 = null;
             stageIterator = null;
         }
-
 
 
     }
@@ -102,10 +100,8 @@ public class RegisterCommander  extends AbstractCommander{
     }
 
 
-
-
     @Override
-    public boolean isBreakable(){
+    public boolean isBreakable() {
         return false;
     }
 }

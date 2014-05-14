@@ -1,15 +1,12 @@
 package ua.com.nv.server;
 
 import org.apache.log4j.Logger;
-import ua.com.nv.dao.ClientDao;
 import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
-import ua.com.nv.server.util.ClientsBook;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -23,14 +20,11 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.init();
+
         server.receiveClients();
     }
 
-    public void init() {
 
-
-    }
 
     public void receiveClients() {
 

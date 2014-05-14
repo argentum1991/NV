@@ -20,7 +20,7 @@ public class ChangeCommander extends AbstractCommander {
             enveloper.addMsgHeader(header1);
             logger.info(request);
             addCommandExplanation();
-        } else if (request.matches(commandPattern)) {
+        } else if (request.trim().toUpperCase().matches(commandPattern)) {
 
             return getCommander(currentCommander, request);
 

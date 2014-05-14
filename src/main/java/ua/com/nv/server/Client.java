@@ -1,8 +1,6 @@
 package ua.com.nv.server;
 
 
-import java.io.IOException;
-
 public class Client implements ClientNetStatusControl<String>,Sender<String> {
     private Sender<String> sender;
     private String userName;
@@ -30,9 +28,10 @@ public class Client implements ClientNetStatusControl<String>,Sender<String> {
     private String pass;
 
 
-    public Client(String userName, int status) {
+    public Client(String userName, String pass, int status) {
         this.status=status;
         this.userName = userName;
+        this.pass=pass;
     }
 
     public boolean inOnlineMode() {

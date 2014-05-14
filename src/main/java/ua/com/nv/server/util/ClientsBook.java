@@ -3,19 +3,18 @@ package ua.com.nv.server.util;
 import ua.com.nv.dao.ClientDao;
 import ua.com.nv.protocol.commander.DELIVERY_MODE;
 import ua.com.nv.server.Client;
-
 import ua.com.nv.server.Sender;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public final class ClientsBook {
 
-    private static ConcurrentHashMap<String, Client> clients = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<String, HashSet<String>> undeliveredMsg = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, Client> onLineClients = new ConcurrentHashMap<>();
 
 
     public static boolean transmitMsg(DELIVERY_MODE mode, String msg) {
@@ -30,67 +29,68 @@ public final class ClientsBook {
 
     private static void broadcasting(String msg) {
 
-        for (Client receiver : clients.values()) {
-            deliverMsg(receiver, msg);
+        for (String userName : ClientDao.getClientsName()) {
+            if (onLineClients.contains(userName)) {
+                Client receiver = onLineClients.get(userName);
+                deliverMsg(receiver, msg);
+            } else {
+                addUndeliveredMsg(userName, msg);
+            }
+
         }
     }
 
     private static boolean privatecasting(String msg, String whom) {
-        Client receiver = clients.get(whom);
-        if (receiver == null) {
-            return false;
+        if (onLineClients.contains(whom)) {
+            Client receiver = onLineClients.get(whom);
+            deliverMsg(receiver, msg);
+            return true;
+        } else {
+            addUndeliveredMsg(whom, msg);
         }
-        deliverMsg(receiver, msg);
-        return true;
+        return false;
     }
 
 
     private static void deliverMsg(Client receiver, String msg) {
-        if (receiver.inOnlineMode()) {
-            receiver.sendMsg(msg);
-        } else {
-            undeliveredMsg.get(receiver.getUserName()).add(msg);
-        }
+
+        receiver.sendMsg(msg);
+
+
     }
 
     public static void addClients(List<Client> clientList) {
         for (Client curClient : clientList) {
-            clients.putIfAbsent(curClient.getUserName(), curClient);
-            undeliveredMsg.putIfAbsent(curClient.getUserName(), new HashSet<String>());
+            addClient(curClient.getUserName(), curClient.getPass());
         }
     }
 
     public static boolean addClient(String userName, String pass) {
-        if (!clients.containsKey(userName)) {
-            Client inserted = new Client(userName, 1);
+        if (!ClientDao.isClientExists(userName)) {
+            Client inserted = new Client(userName, pass, 1);
             inserted.setPass(pass);
-            clients.put(userName, inserted);
-            undeliveredMsg.putIfAbsent(inserted.getUserName(), new HashSet<String>());
+            ClientDao.addClient(inserted);
             return true;
         }
         return false;
     }
 
-    public static Collection<Client> getAllClients() {
-        return clients.values();
-    }
-
 
     public static void unbindSenderFromClient(String userName) {
-        if (clients.containsKey(userName)) {
-            Client client = clients.get(userName);
+        if (onLineClients.contains(userName)) {
+            Client client = onLineClients.get(userName);
+            onLineClients.remove(userName);
             client.setOfflineMode();
         }
     }
 
 
     public static Client bindSenderToClient(String userName, String pass, Sender sender) {
-        if (clients.containsKey(userName)) {
-            Client curClient = clients.get(userName);
+        if (ClientDao.isClientExists(userName)) {
+            Client curClient = ClientDao.getClientByUserName(userName);
             if (curClient.getPass().equals(pass)) {
                 curClient.setOnlineMode(sender);
-
-
+                onLineClients.putIfAbsent(userName, curClient);
                 return curClient;
             }
         }
@@ -99,22 +99,35 @@ public final class ClientsBook {
 
 
     private static void addUndeliveredMsg(String userName, String msg) {
-        if (undeliveredMsg.contains(userName)) {
-            undeliveredMsg.get(userName).add(msg);
-        }
+        ClientDao.addMsgToClient(msg, userName);
     }
 
 
     public static void getUndeliveredMsgFromStock(String userName) {
-        if (clients.containsKey(userName)) {
-            Client curClient = clients.get(userName);
-            Collection<String> set = undeliveredMsg.get(userName);
+        if (onLineClients.contains(userName)) {
+            Client curClient = onLineClients.get(userName);
+            Collection<String> set = ClientDao.getAssotiatedMsgWith(userName);
             for (String msg : set) {
                 set.remove(msg);
                 curClient.sendMsg(msg);
             }
         }
     }
+
+    public static Collection<Client> getAllClients() {
+        Collection<String> allNames = ClientDao.getClientsName();
+        Set<Client> clients = new HashSet<Client>();
+        for (String curName : allNames) {
+            if (onLineClients.contains(curName)) {
+                clients.add(onLineClients.get(curName));
+            } else {
+                clients.add(new Client(curName,"",1));
+            }
+         }
+
+      return clients;
+    }
+
 
 }
 

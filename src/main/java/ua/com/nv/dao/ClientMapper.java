@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ClientMapper {
-    private static String[] properties={"userName","status","pass"};
-    public static Client ClientMapper(Map<String, String> fields) {
+    private static String[] properties={"userName","status","pass",};
+    public static Client getClient(Map<String, String> fields) {
         String userName = fields.get("userName");
         String pass = fields.get("pass");
         int status = (Integer.parseInt(fields.get("status")));
-        Client client = new Client(userName, status);
+        Client client = new Client(userName,pass, status);
         return client;
     }
     public static Map<String,String> getMapFromClient(Client client){
