@@ -119,6 +119,11 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
          ClientsBook.getUndeliveredMsgFromStock(user);
     }
 
+    @Override
+    public void saveMsgInBuffer(String msg) {
+
+    }
+
 
     @Override
     public void sessionInvalidate() {

@@ -35,6 +35,7 @@ public class PrivatecastCommander extends AbstractCommander {
             this.enveloper.addMsgContent(msg);
             ClientSession session = director.getSession();
             putStampOn(session);
+            director.saveMsgInBuffer(enveloper.getResponseMsg());
         }
 
     }

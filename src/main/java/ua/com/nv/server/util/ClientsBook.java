@@ -114,6 +114,9 @@ public final class ClientsBook {
              }
         }
     }
+    public static void getStoredMsg(String userName){
+
+    }
 
     public static Collection<Client> getAllClients() {
         Collection<String> allNames = ClientDao.getClientsName();

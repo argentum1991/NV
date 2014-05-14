@@ -18,6 +18,7 @@ public class BroadcastCommander extends AbstractCommander {
         if (!clientRequest.isEmpty()) {
             putStampOn(director.getSession());
             enveloper.addMsgContent(clientRequest + "\r\n");
+            director.saveMsgInBuffer(enveloper.getResponseMsg());
         }
     }
 
