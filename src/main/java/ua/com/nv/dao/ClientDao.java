@@ -62,7 +62,6 @@ public final class ClientDao {
           while (jedis.llen(client) >amountOfStoredMsg-1) {
             jedis.lpop(client);
         }
-
         jedis.rpush(client, msg);
 
     }

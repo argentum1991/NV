@@ -14,6 +14,7 @@ import ua.com.nv.server.Sender;
 import ua.com.nv.server.util.ClientsBook;
 
 import java.io.Reader;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,7 +117,12 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void getUndeliveredMsgFromStock(String user) {
-         ClientsBook.getUndeliveredMsgFromStock(user);
+       ClientsBook.getUndeliveredMsgFromStock(user);
+    }
+
+    @Override
+    public Collection<String> getStoredMsg(String user) {
+       return ClientsBook.getStoredMsg(user);
     }
 
     @Override
