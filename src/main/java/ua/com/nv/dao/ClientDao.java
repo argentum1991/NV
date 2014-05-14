@@ -11,14 +11,14 @@ import java.util.Set;
 public final class ClientDao {
     private static Jedis jedis;
     private static String msgPattern = "-<msg>";
-
+    private static String usersAlias="userList";
     static {
         jedis = new Jedis("localhost", 6379);
 
     }
 
     public static Set<String> getClientsName() {
-        return jedis.smembers("users");
+        return jedis.smembers(usersAlias);
     }
 
     public static Collection<String> getAssotiatedMsgWith(String userName) {
@@ -30,7 +30,8 @@ public final class ClientDao {
     public static void addClient(Client client) {
         String userName = client.getUserName();
         jedis.hmset(userName,ClientMapper.getMapFromClient(client));
-
+        jedis.sadd(usersAlias,client.getUserName());
+        jedis.sadd(client.getUserName()+msgPattern,"");
     }
 
     public static boolean isClientExists(String userName) {

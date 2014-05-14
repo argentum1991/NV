@@ -1,5 +1,6 @@
 package ua.com.nv.protocol.commander;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 
@@ -52,8 +53,8 @@ public class RegisterCommander extends AbstractCommander {
             log.info("PASS2:" + pass2);
 
         } else if (pass1 == null) {
+            pass1 = new String(DigestUtils.sha(clientRequest));
 
-            pass1 = clientRequest;
             enveloper.addMsgContent(nextStage);
             log.info("LOGIN:" + login);
             log.info("PASS1:" + pass1);
@@ -61,7 +62,7 @@ public class RegisterCommander extends AbstractCommander {
 
         } else if (pass2 == null) {
 
-            pass2 = clientRequest;
+            pass2 = new String(DigestUtils.sha(clientRequest));
             log.info("LOGIN:" + login);
             log.info("PASS1:" + pass1);
             log.info("PASS2:" + pass2);

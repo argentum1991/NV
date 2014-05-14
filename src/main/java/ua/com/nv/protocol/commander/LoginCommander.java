@@ -1,6 +1,7 @@
 package ua.com.nv.protocol.commander;
 
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import ua.com.nv.protocol.commander.util.ChatCommands;
 import ua.com.nv.server.ClientSession;
@@ -45,7 +46,7 @@ public class LoginCommander extends AbstractCommander {
             log.info("PASS:" + pass);
         } else if (pass == null) {
 
-            pass = clientRequest;
+            pass = new String(DigestUtils.sha(clientRequest));
             log.info("LOGIN:" + login);
             log.info("PASS:" + pass);
 

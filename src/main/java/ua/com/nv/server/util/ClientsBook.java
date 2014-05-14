@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class ClientsBook {
 
-    private static ConcurrentHashMap<String, Client> onLineClients = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Client> onLineClients = new ConcurrentHashMap<>();
 
 
     public static boolean transmitMsg(DELIVERY_MODE mode, String msg) {
@@ -108,9 +108,10 @@ public final class ClientsBook {
             Client curClient = onLineClients.get(userName);
             Collection<String> set = ClientDao.getAssotiatedMsgWith(userName);
             for (String msg : set) {
-                set.remove(msg);
-                curClient.sendMsg(msg);
-            }
+                if (!msg.isEmpty()){
+                    curClient.sendMsg(msg);
+                }
+             }
         }
     }
 
@@ -118,7 +119,7 @@ public final class ClientsBook {
         Collection<String> allNames = ClientDao.getClientsName();
         Set<Client> clients = new HashSet<Client>();
         for (String curName : allNames) {
-            if (onLineClients.contains(curName)) {
+            if (onLineClients.containsKey(curName)) {
                 clients.add(onLineClients.get(curName));
             } else {
                 clients.add(new Client(curName,"",1));
