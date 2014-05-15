@@ -1,6 +1,8 @@
 package ua.com.nv.protocol.director;
 
 
+import ua.com.nv.dao.exception.ExceptionHandlerCommander;
+import ua.com.nv.dao.exception.InaccesibleDataBaseException;
 import ua.com.nv.protocol.SimpleTelnetMsg;
 import ua.com.nv.protocol.builder.SimpleTelnetEnveloper;
 import ua.com.nv.protocol.commander.*;
@@ -39,43 +41,56 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void processRequest(String clientRequest) {
-        log.info("Current commander:"+currentCommander+ "--ClientRequest IN DIRECTOR:" + enveloper.getResponseMsg());
+
+        log.info("Current commander:" + currentCommander + "--ClientRequest IN DIRECTOR:" + enveloper.getResponseMsg());
         enveloper.setMsg(new SimpleTelnetMsg());
         String response = "";
-
-        if (tryChangeCommand || checkForChangeCommandRequest(clientRequest)) {
-            currentCommander = changeCommander.processRequest(clientRequest, currentCommander);
-            enveloper.addMsgContent(changeCommander.getResponseMsg());
-            tryChangeCommand = changeCommander.inProcess();
-            mode=changeCommander.getMode();
-            return;
-        } else {
-            currentCommander.reInitMsg();
-            currentCommander.processRequest(clientRequest);
-            response = currentCommander.getResponseMsg();
-        }
-        enveloper.addMsgContent(response);
-        mode=currentCommander.getMode();
-
-        if (!currentCommander.inProcess()) {
-            if (currentCommander.getClass() == WelcomeCommander.class) {
-                tryChangeCommand = true;
-                changeCommander.processRequest(clientRequest, currentCommander);
-                mode=changeCommander.getMode();
-            } else if (session.getStatus() == 0) {
-                tryChangeCommand = true;
-                currentCommander = new WelcomeCommander();
-                currentCommander.reInitMsg();
-                currentCommander.processRequest("");
-                changeCommander.processRequest("",currentCommander); //shift to state without explanation info
-                enveloper.addMsgContent(currentCommander.getResponseMsg());
+        try {
+            if (tryChangeCommand || checkForChangeCommandRequest(clientRequest)) {
+                currentCommander = changeCommander.processRequest(clientRequest, currentCommander);
+                enveloper.addMsgContent(changeCommander.getResponseMsg());
+                tryChangeCommand = changeCommander.inProcess();
+                mode = changeCommander.getMode();
+                return;
             } else {
-                tryChangeCommand=false;
-                currentCommander = new BroadcastCommander();
-                currentCommander.setSessionDirector(this);
+                currentCommander.reInitMsg();
+                currentCommander.processRequest(clientRequest);
+                response = currentCommander.getResponseMsg();
             }
+            enveloper.addMsgContent(response);
+            mode = currentCommander.getMode();
+
+            if (!currentCommander.inProcess()) {
+                if (currentCommander.getClass() == WelcomeCommander.class) {
+                    tryChangeCommand = true;
+                    changeCommander.processRequest(clientRequest, currentCommander);
+                    mode = changeCommander.getMode();
+                } else if (session.getStatus() == 0) {
+                    tryChangeCommand = true;
+                    currentCommander = new WelcomeCommander();
+                    currentCommander.reInitMsg();
+                    currentCommander.processRequest("");
+                    changeCommander.processRequest("", currentCommander); //shift to state without explanation info
+                    enveloper.addMsgContent(currentCommander.getResponseMsg());
+                } else {
+                    tryChangeCommand = false;
+                    currentCommander = new BroadcastCommander();
+                    currentCommander.setSessionDirector(this);
+                }
+            }
+        } catch (InaccesibleDataBaseException idbe) {
+            ExceptionHandlerCommander<InaccesibleDataBaseException> handler = new ExceptionHandlerCommander<>();
+            handler.processRequest(idbe);
+            response = handler.getResponseMsg();
+
+        } catch (Exception ex) {
+            ExceptionHandlerCommander<Exception> handler = new ExceptionHandlerCommander<>();
+            handler.processRequest(ex);
+            response = handler.getResponseMsg();
+        } finally {
+            enveloper.addMsgContent(response);
         }
- }
+    }
 
     @Override
     public void reInitMsg() {
@@ -85,7 +100,7 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public String getResponseMsg() {
-        log.info("Current commander:"+currentCommander+ "--RESPONSE MSG IN DIRECTOR:" + enveloper.getResponseMsg());
+        log.info("Current commander:" + currentCommander + "--RESPONSE MSG IN DIRECTOR:" + enveloper.getResponseMsg());
         return enveloper.getResponseMsg();
 
     }
@@ -117,18 +132,18 @@ public class SimpleTelnetDirector implements MsgDirector, SessionDirector {
 
     @Override
     public void getUndeliveredMsgFromStock(String user) {
-       ClientsBook.getUndeliveredMsgFromStock(user);
+        ClientsBook.getUndeliveredMsgFromStock(user);
     }
 
     @Override
     public Collection<String> getStoredMsg(String user) {
-       return ClientsBook.getStoredMsg(user);
+        return ClientsBook.getStoredMsg(user);
     }
 
     @Override
     public void saveMsgInBuffer(String msg) {
-        if (session.isAuthenticated()){
-            ClientsBook.saveMsgToBuffer(msg,session.client.getUserName());
+        if (session.isAuthenticated()) {
+            ClientsBook.saveMsgToBuffer(msg, session.client.getUserName());
         }
     }
 
